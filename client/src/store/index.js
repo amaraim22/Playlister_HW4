@@ -249,6 +249,7 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncChangeListName(id);
+        history.push("/");
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
@@ -258,6 +259,8 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
         tps.clearAllTransactions();
+
+        history.push("/");
     }
 
     // THIS FUNCTION CREATES A NEW LIST
