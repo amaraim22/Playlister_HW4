@@ -12,6 +12,7 @@ import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
@@ -28,9 +29,43 @@ export default function RegisterScreen() {
         );
     };
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
     return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+
+                <Modal
+                aria-describedby="modal-modal-description"
+                open={auth.modalVisible}
+                className={"modal " + ((auth.modalVisible)? "is-visible": "")}
+                >
+                    
+                <Box sx = {style}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    {auth.modalMsg}
+                    </Typography>
+                    <Button 
+                    onClick={() => auth.hideModal()}
+                    sx = {{ 
+                        ml: 15,
+                        mt: 2
+                    }}
+                    variant="contained">Close</Button>
+                    
+                </Box>
+          </Modal>
+
                 <Box
                     sx={{
                         marginTop: 8,
