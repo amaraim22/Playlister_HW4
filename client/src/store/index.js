@@ -335,16 +335,15 @@ function GlobalStoreContextProvider(props) {
         }
         getListToDelete(id);
     }
-    store.deleteList = function (id) {
+    store.deleteList = async function (id) {
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
             if (response.data.success) {
                 store.loadIdNamePairs();
                 history.push("/");
-                console.log("delete playlist");
             }
         }
-        processDelete(id);
+        await processDelete(id);
     }
     store.deleteMarkedList = function() {
         store.deleteList(store.listIdMarkedForDeletion);
