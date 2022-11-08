@@ -22,6 +22,7 @@ export default function AppBanner() {
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
+        console.log("open menu");
     };
 
     const handleMenuClose = () => {
@@ -86,7 +87,9 @@ export default function AppBanner() {
         let userInitials = auth.getUserInitials();
         console.log("userInitials: " + userInitials);
         if (loggedIn) 
-            return <div>{userInitials}</div>;
+            return <div 
+                    onClick={handleProfileMenuOpen}
+                    >{userInitials}</div>;
         else
             return <AccountCircle />;
     }
