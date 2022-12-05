@@ -43,7 +43,7 @@ export default function RegisterScreen() {
     };
 
     return (
-            <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs">
                 <CssBaseline />
 
                 <Modal
@@ -65,7 +65,7 @@ export default function RegisterScreen() {
                     variant="contained">Close</Button>
                     
                 </Box>
-          </Modal>
+                </Modal>
 
                 <Box
                     sx={{

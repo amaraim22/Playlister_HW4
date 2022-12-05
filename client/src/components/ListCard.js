@@ -1,11 +1,16 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
-import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+
+import AuthContext from '../auth';
+import Box from '@mui/material/Box';
+import { Accordion,Typography, Card, CardHeader,Stack, Link} from '@mui/material';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMore from '@mui/icons-material/ExpandMore'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import {ThumbUpOutlined, ThumbDownOutlined, DeleteOutlined} from '@mui/icons-material'
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -64,40 +69,48 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+    function handleLoadPlayer(event, id) {
+        console.log("HandleLoadPlaylister: " + id);
+    }
 
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
     }
-    let cardStatus = false;
-    if (store.listNameActive) {
-        cardStatus = true;
-    }
+
     let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '48pt' }}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
+        <Card className = {selectClass} 
+                onClick={(event) => {handleLoadPlayer(event, idNamePair._id)}} 
+                key={"listcard-" + idNamePair._id} sx={{borderRadius: 5,border:1}}>
+        <CardHeader
+        onDoubleClick={handleToggleEdit}
+        title={idNamePair.name}
+        subheader={"By: " + idNamePair.ownerUsername}
+        action={
+            <div id="buttonbox" > 
+                <Stack direction="row" justifyContent="space-between" spacing={2} >
+                    <IconButton>
+                    <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
+                    </IconButton>
+
+                    <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
+
+                    <IconButton>
+                    <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
+                    </IconButton>
+
+                    <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
+                </Stack>
+            </div>
+            
+        }
         >
-            <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
-        </ListItem>
+        <IconButton >
+            <ExpandLess></ExpandLess>
+        </IconButton>   
+
+        </CardHeader>
+        </Card>
 
     if (editActive) {
         cardElement =
@@ -116,6 +129,7 @@ function ListCard(props) {
                 inputProps={{style: {fontSize: 48}}}
                 InputLabelProps={{style: {fontSize: 24}}}
                 autoFocus
+                sx={{fontSize: '20px'}}
             />
     }
     return (

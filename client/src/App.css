@@ -141,7 +141,7 @@ body {
 .unselected-list-card {
   font-size: 18pt;
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
   border-radius: 25px;
 }
 
@@ -165,7 +165,7 @@ body {
 }
 
 .unselected-list-card {
-  background-color: var(--swatch-complement);
+  background-color: #fffff1;
 }
 
 .list-card-button {

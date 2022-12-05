@@ -43,7 +43,7 @@ export default function LoginScreen() {
     };
 
     return (
-        <Grid container component="main" sx={{ height: '80vh', width: '392vh' }}>
+        <Grid container component="main" sx={{ height: '80vh', width: '370vh' }}>
             <CssBaseline />
 
             <Modal
@@ -72,7 +72,7 @@ export default function LoginScreen() {
                     sx={{
                         my: 6,
                         mx: 4,
-                        ml: 55,
+                        ml: 50,
                         width: 400,
                         display: 'flex',
                         flexDirection: 'column',
