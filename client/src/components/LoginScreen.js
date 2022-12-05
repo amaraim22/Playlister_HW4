@@ -43,7 +43,7 @@ export default function LoginScreen() {
     };
 
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Grid container component="main" sx={{ height: '80vh', width: '392vh' }}>
             <CssBaseline />
 
             <Modal
@@ -65,33 +65,21 @@ export default function LoginScreen() {
                     variant="contained">Close</Button>
                     
                 </Box>
-          </Modal>
+            </Modal>
 
-            <Grid
-                item
-                xs={false}
-                sm={4}
-                md={7}
-                sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/random)',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundColor: (t) =>
-                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}
-            />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <Box
                     sx={{
-                        my: 8,
+                        my: 6,
                         mx: 4,
+                        ml: 55,
+                        width: 400,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#be3d3d' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -126,18 +114,18 @@ export default function LoginScreen() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, backgroundColor:'#fffec1', color:'black' }}
                         >
                             Sign In
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
+                                <Link href="#" variant="body2" color={'#be3d3d'}>
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/register/" variant="body2">
+                                <Link href="/register/" variant="body2" color={'#be3d3d'}>
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

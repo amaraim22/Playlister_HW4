@@ -21,9 +21,10 @@ export default function RegisterScreen() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         auth.registerUser(
+            formData.get('username'),
+            formData.get('email'),
             formData.get('firstName'),
             formData.get('lastName'),
-            formData.get('email'),
             formData.get('password'),
             formData.get('passwordVerify')
         );
@@ -68,20 +69,40 @@ export default function RegisterScreen() {
 
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#be3d3d' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Username"
+                                    name="username"
+                                    autoComplete="username"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     autoComplete="fname"
@@ -101,16 +122,6 @@ export default function RegisterScreen() {
                                     label="Last Name"
                                     name="lastName"
                                     autoComplete="lname"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -140,13 +151,13 @@ export default function RegisterScreen() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, backgroundColor:'#fffec1', color:'black' }}
                         >
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login/" variant="body2">
+                                <Link href="/login/" variant="body2" color={'#be3d3d'}>
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

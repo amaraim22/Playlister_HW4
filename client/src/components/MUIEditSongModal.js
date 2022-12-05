@@ -9,11 +9,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 430,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 0.5,
 };
 
 export default function MUIEditSongModal() {
@@ -58,21 +58,21 @@ export default function MUIEditSongModal() {
                 </header>
                 <div className="modal-center">
                     <div className="modal-center-content">
-                        <div id="title-prompt" className="modal-prompt">Title:</div>
+                        <text id="title-prompt" className="modal-prompt">Title:</text> 
                         <input 
                             id="edit-song-modal-title-textfield" 
                             className='modal-textfield' 
                             type="text" 
                             defaultValue={title} 
-                            onChange={handleUpdateTitle} />
-                        <div id="artist-prompt" className="modal-prompt">Artist:</div>
+                            onChange={handleUpdateTitle} /> <br></br>
+                        <text id="artist-prompt" className="modal-prompt">Artist:</text>
                         <input 
                             id="edit-song-modal-artist-textfield" 
                             className='modal-textfield' 
                             type="text" 
                             defaultValue={artist} 
-                            onChange={handleUpdateArtist} />
-                        <div id="you-tube-id-prompt" className="modal-prompt">You Tube Id:</div>
+                            onChange={handleUpdateArtist} /> <br></br>
+                        <text id="you-tube-id-prompt" className="modal-prompt">YouTube Id:</text>
                         <input 
                             id="edit-song-modal-youTubeId-textfield" 
                             className='modal-textfield' 

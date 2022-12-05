@@ -52,7 +52,7 @@ export default function AppBanner() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create Account</Link></MenuItem>
         </Menu>
     );
     const loggedInMenu = 
@@ -76,35 +76,36 @@ export default function AppBanner() {
 
     let editToolbar = "";
     let menu = loggedOutMenu;
-    if (auth.loggedIn) {
+    if (auth.loggedIn && auth.user != null) {
         menu = loggedInMenu;
         if (store.currentList) {
             editToolbar = <EditToolbar />;
         }
     }
     
-    function getAccountMenu(loggedIn) {
+    function getAccountMenu(loggedIn, user) {
         let userInitials = auth.getUserInitials();
         console.log("userInitials: " + userInitials);
-        if (loggedIn) 
-            return <div 
+        if (loggedIn && user != null) 
+            return <div id="userInitials-icon"
                     onClick={handleProfileMenuOpen}
-                    >{userInitials}</div>;
+                    ><text id="userInitials-text">{userInitials}</text></div>;
         else
-            return <AccountCircle />;
+            return <AccountCircle sx={{color: '#be3d3d', fontSize: 30 }}/>;
     }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar>
+                <Toolbar sx = {{ backgroundColor: '#c4c4c4'}}>
                     <Typography                        
                         variant="h4"
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>⌂</Link>
+                        <Link style={{ textDecoration: 'none', color: '#be3d3d', fontSize:35, fontFamily: 'Brush Script MT', fontWeight: 'bold' }} 
+                            to='/'>Playlister</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -117,7 +118,7 @@ export default function AppBanner() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            { getAccountMenu(auth.loggedIn) }
+                            { getAccountMenu(auth.loggedIn, auth.user) }
                         </IconButton>
                     </Box>
                 </Toolbar>
