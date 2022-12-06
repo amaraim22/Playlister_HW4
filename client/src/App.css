@@ -6,7 +6,7 @@
     
         @author McKilla Gorilla
     */
-  --swatch-foundation: #ffffff;
+  --swatch-foundation: #FFFEC1;
   --swatch-primary: #e6e6e6;
   --swatch-complement: #e1e4cb;
   --swatch-contrast: #111111;
@@ -130,10 +130,10 @@ body {
   left: 0%;
   top: 10%;
   width: 100%;
-  height: 90%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y:"scroll"
 }
 
 .list-card,

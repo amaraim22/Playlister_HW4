@@ -1,5 +1,4 @@
 import AppBanner from './AppBanner'
-import EditToolbar from './EditToolbar'
 import NavBar from './NavBar'
 import HomeScreen from './HomeScreen'
 import HomeWrapper from './HomeWrapper'
@@ -21,7 +20,6 @@ import WorkspaceScreen from './WorkspaceScreen'
 */
 export { 
     AppBanner,  
-    EditToolbar, 
     NavBar,
     HomeScreen,
     HomeWrapper,

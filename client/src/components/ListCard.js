@@ -1,16 +1,23 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
-import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 
 import AuthContext from '../auth';
 import Box from '@mui/material/Box';
 import { Accordion,Typography, Card, CardHeader,Stack, Link} from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import {ThumbUpOutlined, ThumbDownOutlined, DeleteOutlined} from '@mui/icons-material'
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {ThumbUpOutlined, ThumbDownOutlined} from '@mui/icons-material';
+import List from '@mui/material/List';
+
+import MUIEditSongModal from './MUIEditSongModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
+import SongCard from './SongCard.js'
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -25,19 +32,7 @@ function ListCard(props) {
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
 
-    function handleLoadList(event, id) {
-        console.log("handleLoadList for " + id);
-        if (!event.target.disabled) {
-            let _id = event.target.id;
-            if (_id.indexOf('list-card-text-') >= 0)
-                _id = ("" + _id).substring("list-card-text-".length);
-
-            console.log("load " + event.target.id);
-
-            // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
-        }
-    }
+    const [expanded, setExpanded] = useState(false);
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -69,18 +64,54 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-    function handleLoadPlayer(event, id) {
-        console.log("HandleLoadPlaylister: " + id);
+
+    function handleAddNewSong() {
+        store.addNewSong();
     }
+    const handleChange = panel => (event, isExpanded) => {
+        console.log(panel)
+        console.log(isExpanded)
+        setExpanded(isExpanded ? panel : false);
+    };
 
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
     }
 
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
+
+    let songElements = "";
+    if(store.currentList != null) {
+        songElements = 
+            <Box sx={{ flexGrow: 1 }}>
+            <List 
+                id="playlist-cards" 
+                sx={{ width: '100%', bgcolor: '#c4c4c4' }}
+            >
+                {
+                    store.currentList.songs.map((song, index) => (
+                        <SongCard
+                            id={'playlist-song-' + (index)}
+                            key={'playlist-song-' + (index)}
+                            index={index}
+                            song={song}
+                        />
+                    ))  
+                }
+            </List>            
+            { modalJSX }
+            </Box>
+    }
+
     let cardElement =
-        <Card className = {selectClass} 
-                onClick={(event) => {handleLoadPlayer(event, idNamePair._id)}} 
+        <Card 
                 key={"listcard-" + idNamePair._id} sx={{borderRadius: 5,border:1}}>
         <CardHeader
         onDoubleClick={handleToggleEdit}
@@ -92,9 +123,7 @@ function ListCard(props) {
                     <IconButton>
                     <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
                     </IconButton>
-
                     <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
-
                     <IconButton>
                     <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
                     </IconButton>
@@ -102,15 +131,25 @@ function ListCard(props) {
                     <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
                 </Stack>
             </div>
-            
         }
-        >
-        <IconButton >
-            <ExpandLess></ExpandLess>
-        </IconButton>   
-
+        >   
         </CardHeader>
-        </Card>
+        <Accordion
+            expanded={expanded === idNamePair._id}
+            key={idNamePair._id}
+            onChange={handleChange(idNamePair._id)}
+            >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}></AccordionSummary>
+
+            <AccordionDetails>
+                {songElements}
+                <IconButton onClick={handleAddNewSong}>
+                    <AddIcon sx={{color: "black", fontSize: 60}}  />
+                </IconButton> 
+            </AccordionDetails>
+        </Accordion>
+
+    </Card>
 
     if (editActive) {
         cardElement =
