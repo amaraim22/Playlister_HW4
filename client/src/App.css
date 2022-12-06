@@ -91,7 +91,14 @@ body {
 
 #edit-toolbar {
   background-color: transparent;
+  float: left;
+  margin: 10px;
+}
+
+#publish-toolbar {
+  background-color: transparent;
   float: right;
+  margin: 10px;
 }
 
 #playlister-statusbar {

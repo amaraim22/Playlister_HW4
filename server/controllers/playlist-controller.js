@@ -136,7 +136,8 @@ getPlaylistPairs = async (req, res) => {
                             _id: list._id,
                             name: list.name,
                             ownerEmail: list.ownerEmail,
-                            ownerUsername: list.ownerUsername
+                            ownerUsername: list.ownerUsername,
+                            publishedDate: list.publishedDate
                         };
                         pairs.push(pair);
                     }
@@ -161,7 +162,7 @@ getPlaylists = async (req, res) => {
     }).catch(err => console.log(err))
 }
 updatePlaylist = async (req, res) => {
-    const body = req.body
+    const body = req.body;
     console.log("updatePlaylist: " + JSON.stringify(body));
     console.log("req.body.name: " + req.body.name);
 
@@ -192,6 +193,8 @@ updatePlaylist = async (req, res) => {
 
                     list.name = body.playlist.name;
                     list.songs = body.playlist.songs;
+                    list.publishedDate = body.playlist.publishedDate;
+
                     list
                         .save()
                         .then(() => {
