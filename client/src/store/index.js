@@ -59,7 +59,8 @@ function GlobalStoreContextProvider(props) {
         newListCounter: 0,
         listNameActive: false,
         listIdMarkedForDeletion: null,
-        listMarkedForDeletion: null
+        listMarkedForDeletion: null,
+        allPlaylists: null
     });
     const history = useHistory();
 
@@ -86,7 +87,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -101,7 +103,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 })
             }
             // CREATE A NEW LIST
@@ -116,7 +119,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter + 1,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -131,7 +135,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -146,7 +151,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: payload.id,
-                    listMarkedForDeletion: payload.playlist
+                    listMarkedForDeletion: payload.playlist,
+                    allPlaylists: store.allPlaylists
                 });
             }
             case GlobalStoreActionType.UNMARK_LIST_FOR_DELETION: {
@@ -160,7 +166,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             // UPDATE A LIST
@@ -175,7 +182,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             // START EDITING A LIST NAME
@@ -190,7 +198,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: true,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             // 
@@ -205,7 +214,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -219,7 +229,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -233,7 +244,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
-                    listMarkedForDeletion: null
+                    listMarkedForDeletion: null,
+                    allPlaylists: store.allPlaylists
                 });
             }
             case GlobalStoreActionType.SET_PAGE_VIEW: {
@@ -247,7 +259,8 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     listNameActive: store.listNameActive,
                     listIdMarkedForDeletion: store.listIdMarkedForDeletion,
-                    listMarkedForDeletion: store.listMarkedForDeletion
+                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    allPlaylists: store.allPlaylists
                 });
             }
             default:
@@ -435,8 +448,7 @@ function GlobalStoreContextProvider(props) {
         asyncSetCurrentList(id);
     }
 
-    store.publishPlaylist = function (id) {
-        let list = store.currentList;      
+    store.publishPlaylist = function (list) {     
         list.publishedDate = new Date();
         store.updateCurrentList();
         store.loadIdNamePairs();
@@ -600,7 +612,7 @@ function GlobalStoreContextProvider(props) {
         });
     }
 
-    store.changePageView = function(pageType) {
+    store.changePageView = function (pageType) {
         storeReducer({
             type: GlobalStoreActionType.SET_PAGE_VIEW,
             payload: pageType

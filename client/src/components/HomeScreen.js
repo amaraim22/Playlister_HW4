@@ -21,7 +21,6 @@ import SongCard from './SongCard.js'
 import Box from '@mui/material/Box';
 import EditToolbar from './EditToolbar';
 import Button from '@mui/material/Button';
-import AllScreen from './AllScreen';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -43,7 +42,7 @@ const HomeScreen = () => {
         store.markListForDeletion(store.currentList._id);
     }
     function handlePublishList(event) {
-        store.publishPlaylist(store.currentList._id);
+        store.publishPlaylist(store.currentList);
         store.loadIdNamePairs();
         setExpanded(false);
     }
@@ -167,7 +166,7 @@ const HomeScreen = () => {
             }
         }  
 
-        if (store.pageView === "HOME") {
+        if(store.pageView === "HOME") {
             listCard = 
             <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
             {
@@ -196,8 +195,8 @@ const HomeScreen = () => {
             }
             </List>;
         }
-        else if (store.pageView === "ALL") {
-            listCard = <AllScreen />
+        else if(store.pageView === "ALL") {
+            listCard = "";
         }
     }
     return (

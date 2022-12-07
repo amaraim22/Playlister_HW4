@@ -22,10 +22,6 @@ function AllScreen() {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
 
-    useEffect(() => {
-        store.loadIdNamePairs();
-    }, []);
-
     function handleDuplicateList() {
         //take to home screen
         //store.duplicatePlaylist(store.currentList);
@@ -65,12 +61,17 @@ function AllScreen() {
                 </Box>
     }
 
-    let publishedPlaylists = store.idNamePairs.filter(pair => pair.publishedDate != null);
+    let allLists = [];
+    if(store.allPlaylists != null) {
+        allLists = store.allPlaylists.filter(pair => pair.publishedDate != null);
+    }
+    console.log(allLists);
+    console.log(store.idNamePair);
 
     return (
         <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
             {
-                publishedPlaylists.map((pair) => (
+                allLists.map((pair) => (
                     <Accordion
                     expanded={expanded === pair._id}
                     key={pair._id}
