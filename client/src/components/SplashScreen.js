@@ -1,20 +1,21 @@
-//import { useContext } from 'react';
+import { useContext } from 'react';
+import AuthContext from '../auth'
+
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useHistory } from 'react-router-dom'
-//import { GlobalStoreContext } from '../store'
 
 export default function SplashScreen() {
-    //const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
 
     let buttonStyle = { backgroundColor:'#fffec1', color:"black"};
     const history = useHistory();
 
     const handleGuest = () => {    
         console.log("handleGuest");
+        auth.guestUser();
     }
-
 
     return (
         

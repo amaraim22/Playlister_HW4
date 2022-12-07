@@ -195,12 +195,12 @@ const HomeScreen = () => {
             </List>;
         }
         else if(store.pageView === "ALL") {
-            listCard = <AllScreen />;
+            listCard = <AllScreen isGuest={false} />;
         }
     }
     return (
         <div id="playlist-selector">
-            <NavBar/>
+            <NavBar isGuest={false} />
             <div id="list-selector-list">
                 {
                     listCard

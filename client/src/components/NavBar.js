@@ -12,8 +12,9 @@ import TextField from '@mui/material/TextField';
 import { GlobalStoreContext } from '../store'
 import { useContext } from 'react'
 
-export default function NavBar() {
+export default function NavBar(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { isGuest } = props;
 
     function handleHome() {
         store.changePageView("HOME");       
@@ -26,7 +27,9 @@ export default function NavBar() {
     }
 
     let homeColor = "";
-    if(store.pageView === "HOME")
+    if(isGuest)
+        homeColor = {fontSize: 40, color:'gray'};
+    else if(store.pageView === "HOME")
         homeColor = {fontSize: 40, color:'#FFFEC1'};
     else   
         homeColor = {fontSize: 40, color:'black'};
@@ -55,7 +58,7 @@ export default function NavBar() {
                     >
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <IconButton onClick={handleHome}><Home sx={homeColor}></Home></IconButton>
+                        <IconButton disabled={isGuest} onClick={handleHome}><Home sx={homeColor}></Home></IconButton>
                         <IconButton onClick={handleAll}><Groups sx={allColor}></Groups></IconButton>
                         <IconButton onClick={handleUser}><Person sx={userColor}></Person></IconButton>
                     </Stack>

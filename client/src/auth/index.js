@@ -13,7 +13,8 @@ export const AuthActionType = {
     LOGOUT_USER: "LOGOUT_USER",
     REGISTER_USER: "REGISTER_USER",
     SHOW_AUTH_MODALS: "SHOW_AUTH_MODALS",
-    HIDE_AUTH_MODALS: "HIDE_AUTH_MODALS"
+    HIDE_AUTH_MODALS: "HIDE_AUTH_MODALS",
+    GUEST_USER: "GUEST_USER"
 }
 
 function AuthContextProvider(props) {
@@ -21,7 +22,8 @@ function AuthContextProvider(props) {
         user: null,
         loggedIn: false,
         modalMsg: false,
-        modalVisible: false
+        modalVisible: false,
+        isGuest: false
     });
     const history = useHistory();
 
@@ -37,7 +39,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: payload.loggedIn,
                     modalMsg: false,
-                    modalVisible: false
+                    modalVisible: false,
+                    isGuest: false
                 });
             }
             case AuthActionType.LOGIN_USER: {
@@ -45,7 +48,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: true,
                     modalMsg: false,
-                    modalVisible: false
+                    modalVisible: false,
+                    isGuest: false
                 })
             }
             case AuthActionType.LOGOUT_USER: {
@@ -53,7 +57,8 @@ function AuthContextProvider(props) {
                     user: null,
                     loggedIn: false,
                     modalMsg: false,
-                    modalVisible: false
+                    modalVisible: false,
+                    isGuest: false
                 })
             }
             case AuthActionType.REGISTER_USER: {
@@ -61,7 +66,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: true,
                     modalMsg: false,
-                    modalVisible: false
+                    modalVisible: false,
+                    isGuest: false
                 })
             }
             case AuthActionType.SET_LOGGED_IN: {
@@ -69,7 +75,8 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: true,
                     modalMsg: false,
-                    modalVisible: false
+                    modalVisible: false,
+                    isGuest: false
                 })
             }
             case AuthActionType.SHOW_AUTH_MODALS: {
@@ -77,7 +84,8 @@ function AuthContextProvider(props) {
                     user: null,
                     loggedIn: true,
                     modalMsg: payload.modalMsg,
-                    modalVisible: true
+                    modalVisible: true,
+                    isGuest: false
                 })
             }
             case AuthActionType.HIDE_AUTH_MODALS: {
@@ -85,7 +93,17 @@ function AuthContextProvider(props) {
                     user: null,
                     loggedIn: true,
                     modalMsg: null,
-                    modalVisible: false
+                    modalVisible: false,
+                    isGuest: false
+                })
+            }
+            case AuthActionType.GUEST_USER: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    modalMsg: false,
+                    modalVisible: false,
+                    isGuest: true
                 })
             }
             default:
@@ -178,6 +196,12 @@ function AuthContextProvider(props) {
     auth.hideModal = function() {
         authReducer( {
             type: AuthActionType.HIDE_AUTH_MODALS
+        })
+    }
+
+    auth.guestUser = function() {
+        authReducer( {
+            type: AuthActionType.GUEST_USER
         })
     }
 

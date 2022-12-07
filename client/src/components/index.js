@@ -4,6 +4,7 @@ import HomeScreen from './HomeScreen'
 import HomeWrapper from './HomeWrapper'
 import ListCard from './ListCard'
 import LoginScreen from './LoginScreen'
+import GuestScreen from './GuestScreen'
 import MUIDeleteModal from './MUIDeleteModal'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
@@ -12,6 +13,7 @@ import SongCard from './SongCard'
 import SplashScreen from './SplashScreen'
 import Statusbar from './Statusbar'
 import WorkspaceScreen from './WorkspaceScreen'
+
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -25,6 +27,7 @@ export {
     HomeWrapper,
     ListCard, 
     LoginScreen,
+    GuestScreen,
     MUIDeleteModal,
     MUIEditSongModal,
     MUIRemoveSongModal,

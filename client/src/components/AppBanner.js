@@ -77,7 +77,6 @@ export default function AppBanner() {
     
     function getAccountMenu(loggedIn, user) {
         let userInitials = auth.getUserInitials();
-        console.log("userInitials: " + userInitials);
         if (loggedIn && user != null) 
             return <div id="userInitials-icon"
                     onClick={handleProfileMenuOpen}
@@ -99,7 +98,8 @@ export default function AppBanner() {
                         <Link style={{ textDecoration: 'none', color: '#be3d3d', fontSize:35, fontFamily: 'Brush Script MT', fontWeight: 'bold' }} 
                             to='/'>Playlister</Link>
                     </Typography>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Typography></Typography>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } , float:'right' }}>
                         <IconButton
                             size="large"
                             edge="end"

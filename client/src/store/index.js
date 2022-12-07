@@ -33,6 +33,7 @@ export const GlobalStoreActionType = {
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
     SET_PAGE_VIEW: "SET_PAGE_VIEW",
+    GET_ALL_PLAYLISTS: "GET_ALL_PLAYLISTS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -263,6 +264,21 @@ function GlobalStoreContextProvider(props) {
                     allPlaylists: store.allPlaylists
                 });
             }
+            case GlobalStoreActionType.GET_ALL_PLAYLISTS: {
+                return setStore({
+                    currentModal : store.currentModal,
+                    pageView: store.pageView,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: store.currentSongIndex,
+                    currentSong: store.currentSong,
+                    newListCounter: store.newListCounter,
+                    listNameActive: store.listNameActive,
+                    listIdMarkedForDeletion: store.listIdMarkedForDeletion,
+                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    allPlaylists: payload
+                });
+            }
             default:
                 return store;
         }
@@ -364,6 +380,24 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncLoadIdNamePairs();
+    }
+
+    store.getAllPlaylists = function () {
+        async function asyncGetAllPlaylists() {
+            console.log("get all playlists");
+            let response = await api.getPlaylists();
+            if (response.data.success) {
+                let allLists = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.GET_ALL_PLAYLISTS,
+                    payload: allLists
+                });
+            }
+            else {
+                console.log("API FAILED TO GET THE LIST PAIRS");
+            }
+        }
+        asyncGetAllPlaylists();
     }
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION

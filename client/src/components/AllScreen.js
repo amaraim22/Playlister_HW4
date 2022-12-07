@@ -18,20 +18,18 @@ import Button from '@mui/material/Button';
     
     @author McKilla Gorilla
 */
-function AllScreen() {
+function AllScreen(props) {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
+    const { isGuest } = props;
 
-    function handleDuplicateList(list) {
-        console.log(list);
-        //take to home screen
-        //store.duplicatePlaylist(store.currentList);
-        //store.closeCurrentList();
-        //setExpanded(false);
-    }
-
-    const handleChange = panel => (event, isExpanded) => {
+    const handleChange = panel => (isExpanded) => {
         setExpanded(isExpanded ? panel : false);
+    };
+    const handleDuplicateList = list => () => {
+        console.log(list);
+        store.duplicatePlaylist(list);
+        store.changePageView("HOME");
     };
 
     let allLists = [];
