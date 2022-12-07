@@ -21,13 +21,16 @@ export default function NavBar(props) {
     const isMenuOpen = Boolean(anchorEl);
 
     function handleHome() {
-        store.changePageView("HOME");       
+        store.changePageView("HOME"); 
+        //store.closeCurrentList();      
     }
     function handleAll(){
         store.changePageView("ALL");
+        //store.closeCurrentList(); 
     }
     function handleUser(){
         store.changePageView("USER");
+        //store.closeCurrentList(); 
     }
 
     let homeColor = "";

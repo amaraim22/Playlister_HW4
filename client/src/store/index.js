@@ -270,7 +270,7 @@ function GlobalStoreContextProvider(props) {
                     currentModal : store.currentModal,
                     pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
-                    currentList: store.currentList,
+                    currentList: null,
                     currentSongIndex: store.currentSongIndex,
                     currentSong: store.currentSong,
                     newListCounter: store.newListCounter,
@@ -283,16 +283,16 @@ function GlobalStoreContextProvider(props) {
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
             case GlobalStoreActionType.SORT_ID_NAME_PAIRS: {
                 return setStore({
-                    currentModal : store.currentModal,
+                    currentModal : CurrentModal.NONE,
                     pageView: payload.pageView,
                     idNamePairs: payload.pairsArray,
-                    currentList: store.currentList,
-                    currentSongIndex: store.currentSongIndex,
-                    currentSong: store.currentSong,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
                     newListCounter: store.newListCounter,
-                    listNameActive: store.listNameActive,
-                    listIdMarkedForDeletion: store.listIdMarkedForDeletion,
-                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
                     allPlaylists: payload.allPlaylists
                 });
             }

@@ -35,6 +35,14 @@ import { FastRewind, Stop, PlayArrow, FastForward } from '@mui/icons-material';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
+    const [songStatus, setSongStatus] = useState("");
+
+    function handleStopPlaying() {
+        setSongStatus("STOP");
+    }
+    function handleStartPlaying() {
+        setSongStatus("START");
+    }
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -67,6 +75,7 @@ const HomeScreen = () => {
     };
 
     let listCard = "";
+    let youtubePlayer = "";
     if (store) {
         console.log(store.pageView);
         let modalJSX = "";
@@ -81,6 +90,11 @@ const HomeScreen = () => {
         let toolbar = "";
 
         if(store.currentList != null) {
+            youtubePlayer = <PlaylisterYoutubePlayer 
+                                currentList={store.currentList} 
+                                songStatus={songStatus}
+                                />
+
             if(store.currentList.publishedDate == null) {
                 toolbar = 
                 <Box>
@@ -212,20 +226,20 @@ const HomeScreen = () => {
                     <MUIDeleteModal />
                 </div>
                 <div id="youtube-player">
-                    <PlaylisterYoutubePlayer />
+                    { youtubePlayer }
                     <div id="youtube-player-text">
                         <Typography sx={{paddingTop:1, fontSize:20, textAlign:'center'}}>Now Playing</Typography>
                     </div>
                     <div id="youtube-player-button">
-                        <Stack direction="row" spacing={0.5} >
+                        <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5} >
                             <IconButton>
                                 <FastRewind sx={{fontSize:35, color:'black'}}></FastRewind>
                             </IconButton>
                             <IconButton>
-                                <Stop sx={{fontSize:35, color:'black'}}></Stop>
+                                <Stop onClick={handleStopPlaying} sx={{fontSize:35, color:'black'}}></Stop>
                             </IconButton>
                             <IconButton>
-                                <PlayArrow sx={{fontSize:35, color:'black'}}></PlayArrow>
+                                <PlayArrow onClick={handleStartPlaying} sx={{fontSize:35, color:'black'}}></PlayArrow>
                             </IconButton>
                             <IconButton>
                                 <FastForward sx={{fontSize:35, color:'black'}}></FastForward>

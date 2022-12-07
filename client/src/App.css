@@ -154,6 +154,11 @@ body {
   border-radius: 1%;
 }
 
+#youtube-player-button {
+  margin-top: 80px;
+  padding-bottom: 20px;
+}
+
 .list-card,
 .selected-list-card,
 .unselected-list-card {

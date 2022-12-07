@@ -24,7 +24,13 @@ function AllScreen(props) {
     const { isGuest } = props;
 
     const handleChange = panel => (isExpanded) => {
+        console.log(panel);
         setExpanded(isExpanded ? panel : false);
+        if (isExpanded === true) {
+            store.setCurrentList(panel);
+        }
+        else
+            store.closeCurrentList(); 
     };
     const handleDuplicateList = list => () => {
         console.log(list);
