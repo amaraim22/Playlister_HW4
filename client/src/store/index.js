@@ -128,7 +128,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal : CurrentModal.NONE,
                     pageView: store.pageView,
-                    idNamePairs: payload,
+                    idNamePairs: payload.pairsArray,
                     currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
@@ -136,7 +136,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    allPlaylists: store.allPlaylists
+                    allPlaylists: payload.allLists
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -346,13 +346,18 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = function () {
         async function asyncLoadIdNamePairs() {
-            const response = await api.getPlaylistPairs();
+            let response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                storeReducer({
-                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                    payload: pairsArray
-                });
+                response = await api.getPlaylists();
+                if (response.data.success) {
+                    let allLists = response.data.data;
+                    storeReducer({
+                        type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                        payload: { pairsArray: pairsArray, 
+                                allLists: allLists }
+                    });
+                }
             }
             else {
                 console.log("API FAILED TO GET THE LIST PAIRS");

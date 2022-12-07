@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
+import AllScreen from './AllScreen'
 import SongCard from './SongCard.js'
 import Box from '@mui/material/Box';
 import EditToolbar from './EditToolbar';
@@ -53,8 +54,6 @@ const HomeScreen = () => {
     }
 
     const handleChange = panel => (event, isExpanded) => {
-        console.log(panel)
-        console.log(isExpanded)
         setExpanded(isExpanded ? panel : false);
         if (isExpanded === true) {
             store.setCurrentList(panel);
@@ -196,7 +195,7 @@ const HomeScreen = () => {
             </List>;
         }
         else if(store.pageView === "ALL") {
-            listCard = "";
+            listCard = <AllScreen />;
         }
     }
     return (

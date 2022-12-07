@@ -22,7 +22,8 @@ function AllScreen() {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
 
-    function handleDuplicateList() {
+    function handleDuplicateList(list) {
+        console.log(list);
         //take to home screen
         //store.duplicatePlaylist(store.currentList);
         //store.closeCurrentList();
@@ -30,43 +31,13 @@ function AllScreen() {
     }
 
     const handleChange = panel => (event, isExpanded) => {
-        console.log(panel)
-        console.log(isExpanded)
         setExpanded(isExpanded ? panel : false);
-        if (isExpanded === true) {
-            store.setCurrentList(panel);
-        }
-        else
-            store.closeCurrentList(); 
     };
-
-    let songElements = "";
-    if(store.currentList)  {
-        songElements = 
-                <Box sx={{ flexGrow: 1 }}>
-                <List 
-                    id="playlist-cards" 
-                    sx={{ width: '100%'}}
-                >
-                    {
-                        store.currentList.songs.map((song, index) => (
-                            <ListItem
-                                key={"list-song-" + index}
-                            >
-                                {index + 1}. {song.title} by {song.artist}
-                            </ListItem>
-                        ))  
-                    }
-                </List>            
-                </Box>
-    }
 
     let allLists = [];
     if(store.allPlaylists != null) {
         allLists = store.allPlaylists.filter(pair => pair.publishedDate != null);
     }
-    console.log(allLists);
-    console.log(store.idNamePair);
 
     return (
         <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
@@ -87,12 +58,27 @@ function AllScreen() {
                         </AccordionSummary>
 
                         <AccordionDetails>
-                            { songElements }
+                            <Box sx={{ flexGrow: 1 }}>
+                                <List 
+                                    id="playlist-cards" 
+                                    sx={{ width: '100%'}}
+                                >
+                                    {
+                                        pair.songs.map((song, index) => (
+                                            <ListItem
+                                                key={"list-song-" + index}
+                                            >
+                                                {index + 1}. {song.title} by {song.artist}
+                                            </ListItem>
+                                        ))  
+                                    }
+                                </List>            
+                            </Box>
                             <Box>
                                 <div id="publish-toolbar">
                                     <Button
                                         id='duplicate-button'
-                                        onClick={handleDuplicateList}
+                                        onClick={handleDuplicateList(pair)}
                                         variant="contained">
                                             Duplicate
                                     </Button>
