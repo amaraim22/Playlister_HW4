@@ -33,7 +33,8 @@ export const GlobalStoreActionType = {
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
     SET_PAGE_VIEW: "SET_PAGE_VIEW",
-    GET_ALL_PLAYLISTS: "GET_ALL_PLAYLISTS"
+    GET_ALL_PLAYLISTS: "GET_ALL_PLAYLISTS",
+    SORT_ID_NAME_PAIRS: "SORT_ID_NAME_PAIRS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -277,6 +278,22 @@ function GlobalStoreContextProvider(props) {
                     listIdMarkedForDeletion: store.listIdMarkedForDeletion,
                     listMarkedForDeletion: store.listMarkedForDeletion,
                     allPlaylists: payload
+                });
+            }
+            // GET ALL THE LISTS SO WE CAN PRESENT THEM
+            case GlobalStoreActionType.SORT_ID_NAME_PAIRS: {
+                return setStore({
+                    currentModal : store.currentModal,
+                    pageView: payload.pageView,
+                    idNamePairs: payload.pairsArray,
+                    currentList: store.currentList,
+                    currentSongIndex: store.currentSongIndex,
+                    currentSong: store.currentSong,
+                    newListCounter: store.newListCounter,
+                    listNameActive: store.listNameActive,
+                    listIdMarkedForDeletion: store.listIdMarkedForDeletion,
+                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    allPlaylists: payload.allPlaylists
                 });
             }
             default:
@@ -650,12 +667,41 @@ function GlobalStoreContextProvider(props) {
             payload: null
         });
     }
-
     store.changePageView = function (pageType) {
         storeReducer({
             type: GlobalStoreActionType.SET_PAGE_VIEW,
             payload: pageType
         });
+    }
+    store.sortIdNamePairs = function (propType, pageView) {
+        if (pageView === "HOME") {
+            let pairsArray = store.idNamePairs;
+            if (propType === "Sort Name") {
+                pairsArray.sort((a,b)=> a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
+                storeReducer({
+                    type: GlobalStoreActionType.SET_PAGE_VIEW,
+                    payload: { pairsArray: pairsArray,
+                                pageView: pageView,
+                                allPlaylists: store.allPlaylists }
+                });
+            }
+            else if (propType === "Sort Publish Date") {
+                pairsArray.sort((a,b)=> a.publishedDate - b.publishedDate);
+                console.log(pairsArray);
+            }
+        }
+        else if (pageView === "ALL") {
+            let allLists = store.allPlaylists;
+            if (propType === "Sort Name") {
+                allLists.sort((a,b)=> a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
+                storeReducer({
+                    type: GlobalStoreActionType.SET_PAGE_VIEW,
+                    payload: { pairsArray: store.idNamePairs,
+                        pageView: pageView,
+                        allPlaylists: allLists }
+                });
+            }
+        }
     }
 
     return (

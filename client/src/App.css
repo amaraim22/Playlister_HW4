@@ -136,11 +136,22 @@ body {
   position: relative;
   left: 0%;
   top: 10px;
-  width: 100%;
+  width: 60%;
   max-height: 470px;
   display: flex;
   flex-direction: column;
   overflow-y:"scroll";
+}
+
+#youtube-player {
+  position: relative;
+  padding-left: 2%;
+  padding-top: 1%;
+  top: 60px;
+  width: 36%;
+  max-height: 410px;
+  background-color: #d4d4f5;
+  border-radius: 1%;
 }
 
 .list-card,

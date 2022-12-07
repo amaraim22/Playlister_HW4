@@ -38,7 +38,7 @@ function AllScreen(props) {
     }
 
     return (
-        <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
+        <List sx={{ width: '98%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
             {
                 allLists.map((pair) => (
                     <Accordion

@@ -22,6 +22,10 @@ import SongCard from './SongCard.js'
 import Box from '@mui/material/Box';
 import EditToolbar from './EditToolbar';
 import Button from '@mui/material/Button';
+import PlaylisterYoutubePlayer from './PlaylisterYoutubePlayer';
+import Stack from '@mui/material/Stack';
+
+import { FastRewind, Stop, PlayArrow, FastForward } from '@mui/icons-material';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -64,6 +68,7 @@ const HomeScreen = () => {
 
     let listCard = "";
     if (store) {
+        console.log(store.pageView);
         let modalJSX = "";
         if (store.isEditSongModalOpen()) {
             modalJSX = <MUIEditSongModal />;
@@ -167,7 +172,7 @@ const HomeScreen = () => {
 
         if(store.pageView === "HOME") {
             listCard = 
-            <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
+            <List sx={{ width: '98%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
             {
                 store.idNamePairs.map((pair) => (
                     <Accordion
@@ -201,12 +206,34 @@ const HomeScreen = () => {
     return (
         <div id="playlist-selector">
             <NavBar isGuest={false} />
-            <div id="list-selector-list">
-                {
-                    listCard
-                }
-                <MUIDeleteModal />
-            </div>
+            <Stack direction="row" spacing={1}>
+                <div id="list-selector-list">
+                        { listCard }
+                    <MUIDeleteModal />
+                </div>
+                <div id="youtube-player">
+                    <PlaylisterYoutubePlayer />
+                    <div id="youtube-player-text">
+                        <Typography sx={{paddingTop:1, fontSize:20, textAlign:'center'}}>Now Playing</Typography>
+                    </div>
+                    <div id="youtube-player-button">
+                        <Stack direction="row" spacing={0.5} >
+                            <IconButton>
+                                <FastRewind sx={{fontSize:35, color:'black'}}></FastRewind>
+                            </IconButton>
+                            <IconButton>
+                                <Stop sx={{fontSize:35, color:'black'}}></Stop>
+                            </IconButton>
+                            <IconButton>
+                                <PlayArrow sx={{fontSize:35, color:'black'}}></PlayArrow>
+                            </IconButton>
+                            <IconButton>
+                                <FastForward sx={{fontSize:35, color:'black'}}></FastForward>
+                            </IconButton>
+                        </Stack>
+                    </div>
+                </div>
+            </Stack>
             <Statusbar />
         </div>)
 }
