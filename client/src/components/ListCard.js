@@ -2,9 +2,6 @@ import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-
-import AuthContext from '../auth';
-import Box from '@mui/material/Box';
 import { Typography, Card, CardHeader,Stack} from '@mui/material';
 import {ThumbUpOutlined, ThumbDownOutlined} from '@mui/icons-material';
 
@@ -19,7 +16,7 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected, expanded } = props;
+    const { idNamePair, selected, published } = props;
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -50,33 +47,54 @@ function ListCard(props) {
         selectClass = "selected-list-card";
     }
 
-    let cardElement =
+    let cardElement = "";
+    if(published === true) {
+        let date = idNamePair.publishedDate.split("T")[0];
+
+        cardElement = 
+        <Card 
+        key={"listcard-" + idNamePair._id}
+        sx={{width:'100%', backgroundColor:'#d4d4f5'}}>
+            <CardHeader
+            title={idNamePair.name}
+            subheader={"By: " + idNamePair.ownerUsername}
+            action={
+                <div id="buttonbox" > 
+                    <Stack direction="row" justifyContent="space-between" spacing={2} >
+                        <IconButton>
+                        <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
+                        </IconButton>
+                        <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
+                        <IconButton>
+                        <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
+                        </IconButton>
+
+                        <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
+                    </Stack>
+                </div>
+            }
+            >   
+            </CardHeader>
+            <Stack direction="row">
+                <Typography sx={{margin:'10px', fontSize:15}}>Published: {date}</Typography>
+                <Typography sx={{margin:'10px', fontSize:15,  mr:'50%'}}>Listens: {0}</Typography>
+            </Stack>
+        </Card>
+    }
+    else {
+        cardElement =
         <Card 
             key={"listcard-" + idNamePair._id}
-            sx={{width:'100%'}}>
-        <CardHeader
-        onDoubleClick={handleToggleEdit}
-        title={idNamePair.name}
-        subheader={"By: " + idNamePair.ownerUsername}
-        action={
-            <div id="buttonbox" > 
-                <Stack direction="row" justifyContent="space-between" spacing={2} >
-                    <IconButton>
-                    <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
-                    </IconButton>
-                    <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
-                    <IconButton>
-                    <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
-                    </IconButton>
+            sx={{width:'100%', backgroundColor:'#fffff1'}}>
+            <CardHeader
+            onDoubleClick={handleToggleEdit}
+            title={idNamePair.name}
+            subheader={"By: " + idNamePair.ownerUsername}
+            >   
+            </CardHeader>
 
-                    <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
-                </Stack>
-            </div>
-        }
-        >   
-        </CardHeader>
-
-    </Card>
+        </Card>
+    }
 
     if (editActive) {
         cardElement =

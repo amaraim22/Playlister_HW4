@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 
 import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import NavBar from './NavBar.js';
 import Statusbar from './Statusbar.js';
@@ -20,6 +21,7 @@ import SongCard from './SongCard.js'
 import Box from '@mui/material/Box';
 import EditToolbar from './EditToolbar';
 import Button from '@mui/material/Button';
+import AllScreen from './AllScreen';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -42,6 +44,13 @@ const HomeScreen = () => {
     }
     function handlePublishList(event) {
         store.publishPlaylist(store.currentList._id);
+        store.loadIdNamePairs();
+        setExpanded(false);
+    }
+    function handleDuplicateList() {
+        store.duplicatePlaylist(store.currentList);
+        store.closeCurrentList();
+        setExpanded(false);
     }
 
     const handleChange = panel => (event, isExpanded) => {
@@ -57,7 +66,6 @@ const HomeScreen = () => {
 
     let listCard = "";
     if (store) {
-
         let modalJSX = "";
         if (store.isEditSongModalOpen()) {
             modalJSX = <MUIEditSongModal />;
@@ -67,12 +75,43 @@ const HomeScreen = () => {
         }
 
         let songElements = "";
+        let toolbar = "";
+
         if(store.currentList != null) {
-            songElements = 
+            if(store.currentList.publishedDate == null) {
+                toolbar = 
+                <Box>
+                    <IconButton onClick={handleAddNewSong}>
+                        <AddIcon sx={{color: "black", fontSize: 60}}  />
+                    </IconButton> <br></br>
+                    <EditToolbar />
+                    <div id="publish-toolbar">
+                        <Button 
+                            id='publish-button'
+                            onClick={handlePublishList}
+                            variant="contained">
+                                Publish
+                        </Button>
+                        <Button 
+                            id='delete-button'
+                            onClick={handleDeleteList}
+                            variant="contained">
+                                Delete
+                        </Button>
+                        <Button
+                            id='duplicate-button'
+                            onClick={handleDuplicateList}
+                            variant="contained">
+                                Duplicate
+                        </Button>
+                    </div>
+                </Box>
+
+                songElements = 
                 <Box sx={{ flexGrow: 1 }}>
                 <List 
                     id="playlist-cards" 
-                    sx={{ width: '100%', bgcolor: '#c4c4c4' }}
+                    sx={{ width: '100%'}}
                 >
                     {
                         store.currentList.songs.map((song, index) => (
@@ -87,10 +126,50 @@ const HomeScreen = () => {
                 </List>            
                 { modalJSX }
                 </Box>
+            }
+            else {
+                toolbar = 
+                <Box>
+                    <div id="publish-toolbar">
+                        <Button 
+                            id='delete-button'
+                            onClick={handleDeleteList}
+                            variant="contained">
+                                Delete
+                        </Button>
+                        <Button
+                            id='duplicate-button'
+                            onClick={handleDuplicateList}
+                            variant="contained">
+                                Duplicate
+                        </Button>
+                    </div>
+                </Box>
+
+                songElements = 
+                <Box sx={{ flexGrow: 1 }}>
+                <List 
+                    id="playlist-cards" 
+                    sx={{ width: '100%'}}
+                >
+                    {
+                        store.currentList.songs.map((song, index) => (
+                            <ListItem
+                                key={"list-song-" + index}
+                            >
+                                {index + 1}. {song.title} by {song.artist}
+                            </ListItem>
+                        ))  
+                    }
+                </List>            
+                { modalJSX }
+                </Box>
+            }
         }  
 
-        listCard = 
-            <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', mt: '6%', overflowY:"scroll" }}>
+        if (store.pageView === "HOME") {
+            listCard = 
+            <List sx={{ width: '60%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
             {
                 store.idNamePairs.map((pair) => (
                     <Accordion
@@ -103,40 +182,23 @@ const HomeScreen = () => {
                             key={pair._id}
                             idNamePair={pair}
                             selected={false}
-                        />
+                            published={(pair.publishedDate != null)}
+                            />
                         </AccordionSummary>
 
                         <AccordionDetails>
                             {songElements}
-                            <IconButton onClick={handleAddNewSong}>
-                                <AddIcon sx={{color: "black", fontSize: 60}}  />
-                            </IconButton> <br></br>
-                            <EditToolbar />
-                            <div id="publish-toolbar">
-                                <Button 
-                                    id='publish-button'
-                                    onClick={handlePublishList}
-                                    variant="contained">
-                                        Publish
-                                </Button>
-                                <Button 
-                                    id='delete-button'
-                                    onClick={handleDeleteList}
-                                    variant="contained">
-                                        Delete
-                                </Button>
-                                <Button
-                                    id='duplicate-button'
-                                    variant="contained">
-                                        Duplicate
-                                </Button>
-                            </div>
+                            {toolbar}
                         </AccordionDetails>
                     </Accordion>
                     
                 ))
             }
             </List>;
+        }
+        else if (store.pageView === "ALL") {
+            listCard = <AllScreen />
+        }
     }
     return (
         <div id="playlist-selector">

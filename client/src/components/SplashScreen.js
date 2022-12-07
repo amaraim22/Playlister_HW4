@@ -1,22 +1,17 @@
-import { useContext } from 'react';
+//import { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useHistory } from 'react-router-dom'
-import AuthContext from '../auth';
-//import { PageViewTypes} from '../store'
-import { GlobalStoreContext } from '../store'
+//import { GlobalStoreContext } from '../store'
 
 export default function SplashScreen() {
-    const { auth } = useContext(AuthContext);
     //const { store } = useContext(GlobalStoreContext);
 
     let buttonStyle = { backgroundColor:'#fffec1', color:"black"};
     const history = useHistory();
 
     const handleGuest = () => {    
-        //auth.continueGuest()
-        //store.changeView(PageViewTypes.COMM)
         console.log("handleGuest");
     }
 

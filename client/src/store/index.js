@@ -31,7 +31,8 @@ export const GlobalStoreActionType = {
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     EDIT_SONG: "EDIT_SONG",
     REMOVE_SONG: "REMOVE_SONG",
-    HIDE_MODALS: "HIDE_MODALS"
+    HIDE_MODALS: "HIDE_MODALS",
+    SET_PAGE_VIEW: "SET_PAGE_VIEW",
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -50,6 +51,7 @@ function GlobalStoreContextProvider(props) {
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
         currentModal : CurrentModal.NONE,
+        pageView: "HOME",
         idNamePairs: [],
         currentList: null,
         currentSongIndex : -1,
@@ -76,6 +78,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: payload.idNamePairs,
                     currentList: payload.playlist,
                     currentSongIndex: -1,
@@ -90,6 +93,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CLOSE_CURRENT_LIST: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     currentSongIndex: -1,
@@ -104,6 +108,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CREATE_NEW_LIST: {                
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     currentSongIndex: -1,
@@ -118,6 +123,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: payload,
                     currentList: null,
                     currentSongIndex: -1,
@@ -132,6 +138,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.MARK_LIST_FOR_DELETION: {
                 return setStore({
                     currentModal : CurrentModal.DELETE_LIST,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: -1,
@@ -145,6 +152,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.UNMARK_LIST_FOR_DELETION: {
                 return setStore({
                     currentModal : null,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: -1,
@@ -159,6 +167,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_CURRENT_LIST: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     currentSongIndex: -1,
@@ -173,6 +182,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     currentSongIndex: -1,
@@ -187,6 +197,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.EDIT_SONG: {
                 return setStore({
                     currentModal : CurrentModal.EDIT_SONG,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: payload.currentSongIndex,
@@ -200,6 +211,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.REMOVE_SONG: {
                 return setStore({
                     currentModal : CurrentModal.REMOVE_SONG,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: payload.currentSongIndex,
@@ -213,6 +225,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.HIDE_MODALS: {
                 return setStore({
                     currentModal : CurrentModal.NONE,
+                    pageView: store.pageView,
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     currentSongIndex: -1,
@@ -221,6 +234,20 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.SET_PAGE_VIEW: {
+                return setStore({
+                    currentModal : store.currentModal,
+                    pageView: payload,
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    currentSongIndex: store.currentSongIndex,
+                    currentSong: store.currentSong,
+                    newListCounter: store.newListCounter,
+                    listNameActive: store.listNameActive,
+                    listIdMarkedForDeletion: store.listIdMarkedForDeletion,
+                    listMarkedForDeletion: store.listMarkedForDeletion
                 });
             }
             default:
@@ -279,25 +306,28 @@ function GlobalStoreContextProvider(props) {
 
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
-        let newListName = "Untitled" + store.newListCounter;
-        const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.username, null);
-        console.log("createNewList response: " + response);
-        if (response.status === 201) {
-            tps.clearAllTransactions();
-            let newList = response.data.playlist;
-            storeReducer({
-                type: GlobalStoreActionType.CREATE_NEW_LIST,
-                payload: newList
-            }
-            );
+        async function asyncCreateNewList() {
+            let newListName = "Untitled" + store.newListCounter;
+            const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.username, null);
+            console.log("createNewList response: " + response);
+            if (response.status === 201) {
+                tps.clearAllTransactions();
+                let newList = response.data.playlist;
+                storeReducer({
+                    type: GlobalStoreActionType.CREATE_NEW_LIST,
+                    payload: newList
+                }
+                );
 
-            // IF IT'S A VALID LIST THEN LET'S START EDITING IT
-            store.loadIdNamePairs();
-            history.push("/");
+                // IF IT'S A VALID LIST THEN LET'S START EDITING IT
+                store.loadIdNamePairs();
+                history.push("/");
+            }
+            else {
+                console.log("API FAILED TO CREATE A NEW LIST");
+            }
         }
-        else {
-            console.log("API FAILED TO CREATE A NEW LIST");
-        }
+        asyncCreateNewList();
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
@@ -409,6 +439,30 @@ function GlobalStoreContextProvider(props) {
         let list = store.currentList;      
         list.publishedDate = new Date();
         store.updateCurrentList();
+        store.loadIdNamePairs();
+        console.log(store.idNamePairs);
+        history.push("/login/");
+        history.push("/");
+    }
+    store.duplicatePlaylist = function (list) {
+        async function asyncDuplicatePlaylist() { 
+            const response = await api.createPlaylist(list.name + " copy", list.songs, auth.user.email, auth.user.username, null);
+            console.log("createNewList response: " + response);
+            if (response.status === 201) {
+                tps.clearAllTransactions();
+                let newList = response.data.playlist;
+                storeReducer({
+                    type: GlobalStoreActionType.CREATE_NEW_LIST,
+                    payload: newList
+                }
+                );
+
+                // IF IT'S A VALID LIST THEN LET'S START EDITING IT
+                store.loadIdNamePairs();
+                history.push("/");
+            }
+        }
+        asyncDuplicatePlaylist();
     }
 
     store.getPlaylistSize = function() {
@@ -543,6 +597,13 @@ function GlobalStoreContextProvider(props) {
         storeReducer({
             type: GlobalStoreActionType.SET_LIST_NAME_EDIT_ACTIVE,
             payload: null
+        });
+    }
+
+    store.changePageView = function(pageType) {
+        storeReducer({
+            type: GlobalStoreActionType.SET_PAGE_VIEW,
+            payload: pageType
         });
     }
 

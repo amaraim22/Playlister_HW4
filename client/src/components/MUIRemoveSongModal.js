@@ -27,10 +27,6 @@ export default function MUIRemoveSongModal() {
         store.hideModals();
     }
     
-    let modalClass = "modal";
-    if (store.isRemoveSongModalOpen()) {
-        modalClass += " is-visible";
-    }
     let songTitle = "";
     if (store.currentSong) {
         songTitle = store.currentSong.title;

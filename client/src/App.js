@@ -8,7 +8,6 @@ import {
     HomeWrapper,
     LoginScreen,
     RegisterScreen,
-    WorkspaceScreen
 } from './components'
 /*
     This is our application's top-level component.

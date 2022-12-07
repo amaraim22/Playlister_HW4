@@ -8,9 +8,40 @@ import Groups from '@mui/icons-material/GroupsOutlined';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Sort from '@mui/icons-material/Sort';
-import TextField from '@mui/material/TextField';;
+import TextField from '@mui/material/TextField';
+import { GlobalStoreContext } from '../store'
+import { useContext } from 'react'
 
 export default function NavBar() {
+    const { store } = useContext(GlobalStoreContext);
+
+    function handleHome() {
+        store.changePageView("HOME");       
+    }
+    function handleAll(){
+        store.changePageView("ALL");
+    }
+    function handleUser(){
+        store.changePageView("USER");
+    }
+
+    let homeColor = "";
+    if(store.pageView === "HOME")
+        homeColor = {fontSize: 40, color:'#FFFEC1'};
+    else   
+        homeColor = {fontSize: 40, color:'black'};
+
+    let allColor = "";
+    if(store.pageView === "ALL")
+        allColor = {fontSize: 40, color:'#FFFEC1'};
+    else   
+        allColor = {fontSize: 40, color:'black'};
+
+    let userColor = "";
+    if(store.pageView === "USER")
+        userColor = {fontSize: 40, color:'#FFFEC1'};
+    else   
+        userColor = {fontSize: 40, color:'black'};
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -24,9 +55,9 @@ export default function NavBar() {
                     >
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <IconButton><Home sx={{fontSize: 40, color:'black'}}></Home></IconButton>
-                        <IconButton><Groups sx={{fontSize: 40, color:'black'}}></Groups></IconButton>
-                        <IconButton><Person sx={{fontSize: 40, color:'black'}}></Person></IconButton>
+                        <IconButton onClick={handleHome}><Home sx={homeColor}></Home></IconButton>
+                        <IconButton onClick={handleAll}><Groups sx={allColor}></Groups></IconButton>
+                        <IconButton onClick={handleUser}><Person sx={userColor}></Person></IconButton>
                     </Stack>
                     <Box sx={{flexGrow:1, ml:'5%'}}>
                         <TextField sx={{background:"white", width:"80%"}} label="Search"></TextField>
