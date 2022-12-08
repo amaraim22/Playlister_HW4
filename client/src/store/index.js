@@ -255,7 +255,7 @@ function GlobalStoreContextProvider(props) {
                     currentModal : store.currentModal,
                     pageView: payload,
                     idNamePairs: store.idNamePairs,
-                    currentList: store.currentList,
+                    currentList: null,
                     currentSongIndex: store.currentSongIndex,
                     currentSong: store.currentSong,
                     newListCounter: store.newListCounter,
@@ -354,7 +354,7 @@ function GlobalStoreContextProvider(props) {
     store.createNewList = async function () {
         async function asyncCreateNewList() {
             let newListName = "Untitled" + store.newListCounter;
-            const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.username, null);
+            const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.username, null, 0, [], [], []);
             console.log("createNewList response: " + response);
             if (response.status === 201) {
                 tps.clearAllTransactions();
@@ -490,6 +490,7 @@ function GlobalStoreContextProvider(props) {
     // FUNCTIONS ARE setCurrentList, addMoveItemTransaction, addUpdateItemTransaction,
     // moveItem, updateItem, updateCurrentList, undo, and redo
     store.setCurrentList = function (id) {
+        console.log(id);
         async function asyncSetCurrentList(id) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
@@ -514,7 +515,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.duplicatePlaylist = function (list) {
         async function asyncDuplicatePlaylist() { 
-            const response = await api.createPlaylist(list.name + " copy", list.songs, auth.user.email, auth.user.username, null);
+            const response = await api.createPlaylist(list.name + " copy", list.songs, auth.user.email, auth.user.username, null, 0, [], [], []);
             console.log("createNewList response: " + response);
             if (response.status === 201) {
                 tps.clearAllTransactions();
@@ -684,10 +685,6 @@ function GlobalStoreContextProvider(props) {
                                 pageView: pageView,
                                 allPlaylists: store.allPlaylists }
                 });
-            }
-            else if (propType === "Sort Publish Date") {
-                pairsArray.sort((a,b)=> a.publishedDate - b.publishedDate);
-                console.log(pairsArray);
             }
         }
         else if (pageView === "ALL") {

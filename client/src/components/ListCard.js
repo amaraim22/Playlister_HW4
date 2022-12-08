@@ -50,6 +50,7 @@ function ListCard(props) {
     let cardElement = "";
     if(published === true) {
         let date = idNamePair.publishedDate.split("T")[0];
+        let numListens = idNamePair.listens;
 
         cardElement = 
         <Card 
@@ -62,13 +63,12 @@ function ListCard(props) {
                 <div id="buttonbox" > 
                     <Stack direction="row" justifyContent="space-between" spacing={2} >
                         <IconButton>
-                        <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
+                            <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
                         </IconButton>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
                         <IconButton>
-                        <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
+                            <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
                         </IconButton>
-
                         <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
                     </Stack>
                 </div>
@@ -76,8 +76,8 @@ function ListCard(props) {
             >   
             </CardHeader>
             <Stack direction="row">
-                <Typography sx={{margin:'10px', fontSize:15}}>Published: {date}</Typography>
-                <Typography sx={{margin:'10px', fontSize:15,  mr:'50%'}}>Listens: {0}</Typography>
+                <Typography sx={{margin:'10px', fontSize:15}}>Published: { date }</Typography>
+                <Typography sx={{margin:'10px', fontSize:15,  mr:'50%'}}>Listens: { numListens }</Typography>
             </Stack>
         </Card>
     }

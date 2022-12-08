@@ -65,6 +65,8 @@ const HomeScreen = () => {
         setExpanded(isExpanded ? id : false);
         if (isExpanded === true) {
             store.setCurrentList(id);
+            //store.currentList.listens += 1;
+            //store.updateCurrentList();
             setPlayerComment("PLAYER");
         }
         else
