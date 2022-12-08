@@ -41,7 +41,9 @@ function AllScreen(props) {
 
     let allLists = [];
     if(store.allPlaylists != null) {
+        console.log(store.allPlaylists);
         allLists = store.allPlaylists.filter(pair => pair.publishedDate != null);
+        console.log(allLists);
     }
 
     return (

@@ -78,7 +78,6 @@ const HomeScreen = () => {
     let playerOrComments = "";
 
     if (store) {
-        console.log(store.pageView);
         let modalJSX = "";
         if (store.isEditSongModalOpen()) {
             modalJSX = <MUIEditSongModal />;
@@ -263,7 +262,7 @@ const HomeScreen = () => {
                 </div>
             </Stack>
             <Statusbar />
-        </div>)
+        </div> )
 }
 
 export default HomeScreen;

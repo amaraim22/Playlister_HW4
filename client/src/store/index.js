@@ -680,7 +680,7 @@ function GlobalStoreContextProvider(props) {
             if (propType === "Sort Name") {
                 pairsArray.sort((a,b)=> a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
                 storeReducer({
-                    type: GlobalStoreActionType.SET_PAGE_VIEW,
+                    type: GlobalStoreActionType.SORT_ID_NAME_PAIRS,
                     payload: { pairsArray: pairsArray,
                                 pageView: pageView,
                                 allPlaylists: store.allPlaylists }
@@ -692,12 +692,31 @@ function GlobalStoreContextProvider(props) {
             if (propType === "Sort Name") {
                 allLists.sort((a,b)=> a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
                 storeReducer({
-                    type: GlobalStoreActionType.SET_PAGE_VIEW,
+                    type: GlobalStoreActionType.SORT_ID_NAME_PAIRS,
                     payload: { pairsArray: store.idNamePairs,
                         pageView: pageView,
                         allPlaylists: allLists }
                 });
             }
+        }
+    }
+    store.searchIdNamePairs = function (keyWord, pageView) {
+        //store.loadIdNamePairs();
+        if (pageView === "ALL") {
+            console.log(keyWord);
+            let allLists = store.allPlaylists;
+            for(let i = 0; i< allLists.length; i++) {
+                if (allLists[i].name.includes(keyWord) === false) {
+                    allLists.splice(i, 1);
+                }
+            }
+            storeReducer({
+                type: GlobalStoreActionType.SORT_ID_NAME_PAIRS,
+                payload: { pairsArray: store.idNamePairs,
+                    pageView: pageView,
+                    allPlaylists: allLists }
+            });
+            console.log(allLists);
         }
     }
 

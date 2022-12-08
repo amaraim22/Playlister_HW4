@@ -71,14 +71,41 @@ export default function NavBar(props) {
         handleMenuClose();
         store.changePageView(store.pageView); 
     }
+    const handleSortListens = () => {
+        store.sortIdNamePairs("Sort Listens", store.pageView);
+        handleMenuClose();
+        store.changePageView(store.pageView); 
+    }
+    const handleSortLikes = () => {
+        store.sortIdNamePairs("Sort Likes", store.pageView);
+        handleMenuClose();
+        store.changePageView(store.pageView); 
+    }
+    const handleSortDislikes = () => {
+        store.sortIdNamePairs("Sort Dislikes", store.pageView);
+        handleMenuClose();
+        store.changePageView(store.pageView); 
+    }
 
     function handleKeyPress(event){
         if (event.code === "Enter"){
-            console.log(event.target.value);
+            console.log("Search by " + event.target.value);
+            store.searchIdNamePairs(event.target.value, store.pageView);
+            console.log(store.allPlaylists);
+            store.changePageView(store.pageView); 
         }
     }
 
     const menuId = 'primary-search-account-menu';
+
+    let searchBar = "";
+    if(store.pageView === "ALL" || store.pageView === "USER") {
+        searchBar = 
+            <TextField 
+                onKeyUp={(event)=> handleKeyPress(event)}  
+                sx={{background:"white", width:"80%"}} 
+                label="Search"></TextField>
+    }    
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -96,13 +123,7 @@ export default function NavBar(props) {
                         <IconButton onClick={handleAll}><Groups sx={allColor}></Groups></IconButton>
                         <IconButton onClick={handleUser}><Person sx={userColor}></Person></IconButton>
                     </Stack>
-                    <Box sx={{flexGrow:1, ml:'5%'}}>
-                        <TextField 
-                            onKeyUp={(event)=> handleKeyPress(event)}  
-                            sx={{background:"white", width:"80%"}} 
-                            label="Search"></TextField>
-                    </Box>
-
+                    <Box sx={{flexGrow:1, ml:'5%'}}>{ searchBar }</Box>
                     <Typography sx={{fontWeight:"bold", color:'black'}}> SORT BY </Typography>
                     <IconButton onClick={handleProfileMenuOpen}><Sort sx={{ fontSize: 40, color:'black'}}></Sort></IconButton>
                 </Toolbar>
@@ -124,9 +145,9 @@ export default function NavBar(props) {
             >
                 <MenuItem onClick={handleSortName}>Name (A - Z)</MenuItem>
                 <MenuItem onClick={handleSortPublish}>Publish Date (Newest)</MenuItem>
-                <MenuItem >Listens (High - Low)</MenuItem>
-                <MenuItem >Likes (High - Low)</MenuItem>
-                <MenuItem >Dislikes (High - Low)</MenuItem>
+                <MenuItem onClick={handleSortListens}>Listens (High - Low)</MenuItem>
+                <MenuItem onClick={handleSortLikes}>Likes (High - Low)</MenuItem>
+                <MenuItem onClick={handleSortDislikes}>Dislikes (High - Low)</MenuItem>
             </Menu>
         </Box>
     );
