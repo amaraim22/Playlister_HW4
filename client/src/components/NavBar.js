@@ -60,29 +60,9 @@ export default function NavBar(props) {
         setAnchorEl(null);
     };
 
-    const handleSortName = () => {
-        console.log("Sort Name");
-        store.sortIdNamePairs("Sort Name", store.pageView);
-        handleMenuClose();
-        store.changePageView(store.pageView); 
-    }
-    const handleSortPublish = () => {
-        store.sortIdNamePairs("Sort Publish Date", store.pageView);
-        handleMenuClose();
-        store.changePageView(store.pageView); 
-    }
-    const handleSortListens = () => {
-        store.sortIdNamePairs("Sort Listens", store.pageView);
-        handleMenuClose();
-        store.changePageView(store.pageView); 
-    }
-    const handleSortLikes = () => {
-        store.sortIdNamePairs("Sort Likes", store.pageView);
-        handleMenuClose();
-        store.changePageView(store.pageView); 
-    }
-    const handleSortDislikes = () => {
-        store.sortIdNamePairs("Sort Dislikes", store.pageView);
+    const handleSort = (sortType) => (event) => {
+        console.log(sortType);
+        store.sortIdNamePairs(sortType, store.pageView);
         handleMenuClose();
         store.changePageView(store.pageView); 
     }
@@ -98,6 +78,27 @@ export default function NavBar(props) {
 
     const menuId = 'primary-search-account-menu';
 
+    let sortMenuItems = 
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+        >
+            <MenuItem onClick={handleSort("Sort Creation Date")}>By Creation Date (Old-New)</MenuItem>
+            <MenuItem onClick={handleSort("Sort Last Edit Date")}>By Last Edit Date (New-Old)</MenuItem>
+            <MenuItem onClick={handleSort("Sort Name")}>By Name (A-Z)</MenuItem>
+        </Menu>
+
     let searchBar = "";
     if(store.pageView === "ALL" || store.pageView === "USER") {
         searchBar = 
@@ -105,7 +106,30 @@ export default function NavBar(props) {
                 onKeyUp={(event)=> handleKeyPress(event)}  
                 sx={{background:"white", width:"80%"}} 
                 label="Search"></TextField>
-    }    
+
+        sortMenuItems = 
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                id={menuId}
+                keepMounted
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+            >
+                <MenuItem onClick={handleSort("Sort Name")}>Name (A - Z)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Publish Date")}>Publish Date (Newest)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Listens")}>Listens (High - Low)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Likes")}>Likes (High - Low)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Dislikes")}>Dislikes (High - Low)</MenuItem>
+            </Menu>
+    } 
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -128,27 +152,7 @@ export default function NavBar(props) {
                     <IconButton onClick={handleProfileMenuOpen}><Sort sx={{ fontSize: 40, color:'black'}}></Sort></IconButton>
                 </Toolbar>
             </AppBar>
-            <Menu
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                id={menuId}
-                keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                open={isMenuOpen}
-                onClose={handleMenuClose}
-            >
-                <MenuItem onClick={handleSortName}>Name (A - Z)</MenuItem>
-                <MenuItem onClick={handleSortPublish}>Publish Date (Newest)</MenuItem>
-                <MenuItem onClick={handleSortListens}>Listens (High - Low)</MenuItem>
-                <MenuItem onClick={handleSortLikes}>Likes (High - Low)</MenuItem>
-                <MenuItem onClick={handleSortDislikes}>Dislikes (High - Low)</MenuItem>
-            </Menu>
+            { sortMenuItems }
         </Box>
     );
 }
