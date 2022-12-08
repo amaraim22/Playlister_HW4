@@ -7,7 +7,6 @@ import AddIcon from '@mui/icons-material/Add';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Typography from '@mui/material/Typography';
 import NavBar from './NavBar.js';
 import Statusbar from './Statusbar.js';
 import { Accordion } from '@mui/material';
@@ -25,8 +24,6 @@ import Button from '@mui/material/Button';
 import PlaylisterYoutubePlayer from './PlaylisterYoutubePlayer';
 import Stack from '@mui/material/Stack';
 
-import { FastRewind, Stop, PlayArrow, FastForward } from '@mui/icons-material';
-
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -35,14 +32,6 @@ import { FastRewind, Stop, PlayArrow, FastForward } from '@mui/icons-material';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
-    const [songStatus, setSongStatus] = useState("");
-
-    function handleStopPlaying() {
-        setSongStatus("STOP");
-    }
-    function handleStartPlaying() {
-        setSongStatus("START");
-    }
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -90,10 +79,10 @@ const HomeScreen = () => {
         let toolbar = "";
 
         if(store.currentList != null) {
-            youtubePlayer = <PlaylisterYoutubePlayer 
-                                currentList={store.currentList} 
-                                songStatus={songStatus}
-                                />
+            youtubePlayer = 
+                <PlaylisterYoutubePlayer 
+                    currentList={store.currentList} 
+                    />
 
             if(store.currentList.publishedDate == null) {
                 toolbar = 
@@ -227,25 +216,6 @@ const HomeScreen = () => {
                 </div>
                 <div id="youtube-player">
                     { youtubePlayer }
-                    <div id="youtube-player-text">
-                        <Typography sx={{paddingTop:1, fontSize:20, textAlign:'center'}}>Now Playing</Typography>
-                    </div>
-                    <div id="youtube-player-button">
-                        <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5} >
-                            <IconButton>
-                                <FastRewind sx={{fontSize:35, color:'black'}}></FastRewind>
-                            </IconButton>
-                            <IconButton>
-                                <Stop onClick={handleStopPlaying} sx={{fontSize:35, color:'black'}}></Stop>
-                            </IconButton>
-                            <IconButton>
-                                <PlayArrow onClick={handleStartPlaying} sx={{fontSize:35, color:'black'}}></PlayArrow>
-                            </IconButton>
-                            <IconButton>
-                                <FastForward sx={{fontSize:35, color:'black'}}></FastForward>
-                            </IconButton>
-                        </Stack>
-                    </div>
                 </div>
             </Stack>
             <Statusbar />
