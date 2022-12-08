@@ -23,11 +23,12 @@ function AllScreen(props) {
     const [expanded, setExpanded] = useState(false);
     const { isGuest } = props;
 
-    const handleChange = panel => (isExpanded) => {
-        console.log(panel);
-        setExpanded(isExpanded ? panel : false);
+    const handleChange = (id) => (event, isExpanded) => {
+        console.log(id);
+        console.log(isExpanded);
+        setExpanded(isExpanded ? id : false);
         if (isExpanded === true) {
-            store.setCurrentList(panel);
+            store.setCurrentList(id);
         }
         else
             store.closeCurrentList(); 
@@ -50,7 +51,7 @@ function AllScreen(props) {
                     <Accordion
                     expanded={expanded === pair._id}
                     key={pair._id}
-                    onChange={handleChange(pair._id)}
+                    onChange={handleChange(pair._id, pair)}
                     >
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <ListCard

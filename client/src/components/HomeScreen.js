@@ -32,6 +32,7 @@ import Stack from '@mui/material/Stack';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
+    const [playerComment, setPlayerComment] = useState("PLAYER");
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -53,11 +54,18 @@ const HomeScreen = () => {
         store.closeCurrentList();
         setExpanded(false);
     }
+    function togglePlayer() {
+        setPlayerComment("PLAYER");
+    }
+    function toggleComment() {
+        setPlayerComment("COMMENT");
+    }
 
-    const handleChange = panel => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleChange = (id) => (event, isExpanded) => {
+        setExpanded(isExpanded ? id : false);
         if (isExpanded === true) {
-            store.setCurrentList(panel);
+            store.setCurrentList(id);
+            setPlayerComment("PLAYER");
         }
         else
             store.closeCurrentList(); 
@@ -65,6 +73,8 @@ const HomeScreen = () => {
 
     let listCard = "";
     let youtubePlayer = "";
+    let playerOrComments = "";
+
     if (store) {
         console.log(store.pageView);
         let modalJSX = "";
@@ -79,10 +89,40 @@ const HomeScreen = () => {
         let toolbar = "";
 
         if(store.currentList != null) {
-            youtubePlayer = 
+            let playerStyle = "";
+            let commentStyle = "";
+            if (playerComment === "PLAYER") {
+                playerStyle = { backgroundColor: '#784B84' }
+                commentStyle = { backgroundColor: 'gray' }
+                youtubePlayer = 
                 <PlaylisterYoutubePlayer 
                     currentList={store.currentList} 
                     />
+                console.log(playerComment);
+            }
+            else if (playerComment === "COMMENT") {
+                playerStyle = { backgroundColor: 'gray' }
+                commentStyle = { backgroundColor: '#784B84' }
+                console.log(playerComment);
+            }
+
+            playerOrComments = 
+            <Box>
+                <Button 
+                    id='get-player-button'
+                    variant="contained"
+                    onClick={togglePlayer}
+                    sx={ playerStyle }>
+                        Player
+                </Button>
+                <Button
+                    id='get-comments-button'
+                    variant="contained"
+                    onClick={toggleComment}
+                    sx={ commentStyle }>
+                        Comments
+                </Button>
+            </Box>
 
             if(store.currentList.publishedDate == null) {
                 toolbar = 
@@ -206,6 +246,7 @@ const HomeScreen = () => {
             listCard = <AllScreen isGuest={false} />;
         }
     }
+
     return (
         <div id="playlist-selector">
             <NavBar isGuest={false} />
@@ -215,6 +256,7 @@ const HomeScreen = () => {
                     <MUIDeleteModal />
                 </div>
                 <div id="youtube-player">
+                    { playerOrComments }
                     { youtubePlayer }
                 </div>
             </Stack>
