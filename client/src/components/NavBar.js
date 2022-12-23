@@ -1,3 +1,6 @@
+import { GlobalStoreContext } from '../store'
+import { useContext, useState } from 'react'
+
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,8 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Sort from '@mui/icons-material/Sort';
 import TextField from '@mui/material/TextField';
-import { GlobalStoreContext } from '../store'
-import { useContext, useState } from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -99,9 +100,7 @@ export default function NavBar(props) {
             <MenuItem onClick={handleSort("Sort Name")}>By Name (A-Z)</MenuItem>
         </Menu>
 
-    let searchBar = "";
-    if(store.pageView === "ALL" || store.pageView === "USER") {
-        searchBar = 
+    let searchBar = 
             <TextField 
                 onKeyUp={(event)=> handleKeyPress(event)}  
                 sx={{background:"white", width:"80%"}} 
@@ -129,7 +128,6 @@ export default function NavBar(props) {
                 <MenuItem onClick={handleSort("Sort Likes")}>Likes (High - Low)</MenuItem>
                 <MenuItem onClick={handleSort("Sort Dislikes")}>Dislikes (High - Low)</MenuItem>
             </Menu>
-    } 
 
     return (
         <Box sx={{ flexGrow: 1 }}>

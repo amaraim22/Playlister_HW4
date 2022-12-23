@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+
 import ListCard from './ListCard.js'
 
 import List from '@mui/material/List';
@@ -8,7 +9,6 @@ import { Accordion } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
@@ -24,8 +24,6 @@ function AllScreen(props) {
     const { isGuest } = props;
 
     const handleChange = (id) => (event, isExpanded) => {
-        console.log(id);
-        console.log(isExpanded);
         setExpanded(isExpanded ? id : false);
         if (isExpanded === true) {
             store.setCurrentList(id);
@@ -34,17 +32,16 @@ function AllScreen(props) {
             store.closeCurrentList(); 
     };
     const handleDuplicateList = list => () => {
-        console.log(list);
         store.duplicatePlaylist(list);
         store.changePageView("HOME");
     };
 
     let allLists = [];
     if(store.allPlaylists != null) {
-        console.log(store.allPlaylists);
         allLists = store.allPlaylists.filter(pair => pair.publishedDate != null);
-        console.log(allLists);
     }
+
+    let buttonStyle = { backgroundColor:'#be3d3d', '&:hover':{ backgroundColor:'gray' }, margin:1 }
 
     return (
         <List sx={{ width: '98%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
@@ -68,12 +65,13 @@ function AllScreen(props) {
                             <Box sx={{ flexGrow: 1 }}>
                                 <List 
                                     id="playlist-cards" 
-                                    sx={{ width: '100%'}}
+                                    sx={{ width: '96%', backgroundColor:'#2C2F70', borderRadius:'5px' }}
                                 >
                                     {
                                         pair.songs.map((song, index) => (
                                             <ListItem
                                                 key={"list-song-" + index}
+                                                sx={{ color:'white', fontSize:20 }}
                                             >
                                                 {index + 1}. {song.title} by {song.artist}
                                             </ListItem>
@@ -86,7 +84,8 @@ function AllScreen(props) {
                                     <Button
                                         id='duplicate-button'
                                         onClick={handleDuplicateList(pair)}
-                                        variant="contained">
+                                        variant="contained"
+                                        sx={buttonStyle}>
                                             Duplicate
                                     </Button>
                                 </div>

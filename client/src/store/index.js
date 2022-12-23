@@ -138,7 +138,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    allPlaylists: payload.allLists
+                    allPlaylists: store.allPlaylists
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -382,13 +382,10 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let pairsArray = response.data.idNamePairs;
-                response = await api.getPlaylists();
                 if (response.data.success) {
-                    let allLists = response.data.data;
                     storeReducer({
                         type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                        payload: { pairsArray: pairsArray, 
-                                allLists: allLists }
+                        payload: { pairsArray: pairsArray }
                     });
                 }
             }
@@ -401,7 +398,6 @@ function GlobalStoreContextProvider(props) {
 
     store.getAllPlaylists = function () {
         async function asyncGetAllPlaylists() {
-            console.log("get all playlists");
             let response = await api.getPlaylists();
             if (response.data.success) {
                 let allLists = response.data.data;

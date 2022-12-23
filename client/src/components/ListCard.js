@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import { Typography, Card, CardHeader,Stack} from '@mui/material';
@@ -49,7 +50,8 @@ function ListCard(props) {
 
     let cardElement = "";
     if(published === true) {
-        let date = idNamePair.publishedDate.split("T")[0];
+        let newDate = new Date(idNamePair.publishedDate);
+        let date = newDate.toDateString();
         let numListens = idNamePair.listens;
 
         cardElement = 
@@ -76,8 +78,14 @@ function ListCard(props) {
             >   
             </CardHeader>
             <Stack direction="row">
-                <Typography sx={{margin:'10px', fontSize:15}}>Published: { date }</Typography>
-                <Typography sx={{margin:'10px', fontSize:15,  mr:'50%'}}>Listens: { numListens }</Typography>
+                <Typography sx={{margin:'10px', fontSize:15,  marginLeft:'2%'}}>
+                    <span style={{fontWeight:'bold'}}>Published: </span> 
+                    <span style={{fontStyle: 'italic'}}>{ date }</span>
+                </Typography>
+                <Typography sx={{margin:'10px', fontSize:15,  marginLeft:'45%'}}>
+                    <span style={{fontWeight:'bold'}}>Listens: </span>
+                    { numListens }
+                </Typography>
             </Stack>
         </Card>
     }
@@ -92,7 +100,6 @@ function ListCard(props) {
             subheader={"By: " + idNamePair.ownerUsername}
             >   
             </CardHeader>
-
         </Card>
     }
 

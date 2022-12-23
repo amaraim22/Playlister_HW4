@@ -98,8 +98,8 @@ export default function AppBanner() {
                         <Link style={{ textDecoration: 'none', color: '#be3d3d', fontSize:35, fontFamily: 'Brush Script MT', fontWeight: 'bold' }} 
                             to='/'>Playlister</Link>
                     </Typography>
-                    <Typography></Typography>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } , float:'right' }}>
+                    <Box sx={{ flexGrow: 1 }}></Box>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton
                             size="large"
                             edge="end"

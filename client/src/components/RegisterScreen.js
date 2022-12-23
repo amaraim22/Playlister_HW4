@@ -30,21 +30,29 @@ export default function RegisterScreen() {
         );
     };
 
-    const style = {
+    const modalStyle = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: 'background.paper',
+        color: "black",
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
     };
 
+    let modalButtonStyle = { ml: 15, mt: 2, backgroundColor:'#d4d4f5', color:"black", 
+        '&:hover': {
+            backgroundColor: '#c4c4c4',
+            color: '#d4d4f5',
+        },
+    };
+
     return (
         <Container component="main" maxWidth="xs">
-                <CssBaseline />
+            <CssBaseline />
 
                 <Modal
                 aria-describedby="modal-modal-description"
@@ -52,16 +60,13 @@ export default function RegisterScreen() {
                 className={"modal " + ((auth.modalVisible)? "is-visible": "")}
                 >
                     
-                <Box sx = {style}>
+                <Box sx = {modalStyle}>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                     {auth.modalMsg}
                     </Typography>
                     <Button 
                     onClick={() => auth.hideModal()}
-                    sx = {{ 
-                        ml: 15,
-                        mt: 2
-                    }}
+                    sx = {modalButtonStyle}
                     variant="contained">Close</Button>
                     
                 </Box>
@@ -69,7 +74,7 @@ export default function RegisterScreen() {
 
                 <Box
                     sx={{
-                        marginTop: 1,
+                        marginTop: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -151,7 +156,11 @@ export default function RegisterScreen() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2, backgroundColor:'#fffec1', color:'black' }}
+                            sx={{ mt: 3, mb: 2, backgroundColor:'#fffec1', color:"black", 
+                            '&:hover': {
+                                backgroundColor: '#c4c4c4',
+                                color: '#fffec1',
+                            }, }}
                         >
                             Sign Up
                         </Button>

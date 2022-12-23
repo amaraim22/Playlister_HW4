@@ -89,6 +89,12 @@ body {
   font-size: 20px;
 }
 
+#addsong-toolbar {
+  background-color: transparent;
+  float: left;
+  margin: 10px;
+}
+
 #edit-toolbar {
   background-color: transparent;
   float: left;
@@ -149,7 +155,7 @@ body {
   padding-top: 1%;
   top: 15px;
   width: 36%;
-  max-height: 500px;
+  height: 100%;
   background-color: #d4d4f5;
   border-radius: 1%;
 }
@@ -162,10 +168,10 @@ body {
 .list-card,
 .selected-list-card,
 .unselected-list-card {
-  font-size: 18pt;
+  font-size: 20pt;
   margin: 10px;
   padding: 10px;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 
 .list-card:aria-disabled,
@@ -178,7 +184,7 @@ body {
 
 .unselected-list-card:hover {
   cursor: pointer;
-  background-color: var(--swatch-contrast);
+  background-color: gray;
   color: white;
 }
 
@@ -188,12 +194,13 @@ body {
 }
 
 .unselected-list-card {
-  background-color: #fffff1;
+  background-color: #2C2F70;
+  color: white;
 }
 
 .list-card-button {
   float: right;
-  transform: scale(2);
+  font-size: 30px;
 }
 
 #workspace-home,
