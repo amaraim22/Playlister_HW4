@@ -117,6 +117,7 @@ getPlaylistPairs = async (req, res) => {
                         let pair = {
                             _id: list._id,
                             name: list.name,
+                            playlist: list,
                             ownerEmail: list.ownerEmail,
                             ownerUsername: list.ownerUsername,
                             publishedDate: list.publishedDate,
@@ -192,6 +193,7 @@ updatePlaylistById = async (req, res) => {
                             return res.status(200).json({
                                 success: true,
                                 id: list._id,
+                                playlist: list,
                                 message: 'Playlist updated!',
                             })
                         })

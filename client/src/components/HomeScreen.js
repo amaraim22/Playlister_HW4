@@ -37,6 +37,7 @@ const HomeScreen = () => {
     let youtubePlayer = "";
 
     if (store) {
+        console.log(store.currentList);
         if(store.currentList != null) {
             if (playerComment === "PLAYER") {
                 youtubePlayer = 
