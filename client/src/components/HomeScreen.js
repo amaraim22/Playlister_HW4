@@ -28,6 +28,7 @@ const HomeScreen = () => {
     useEffect(() => {
         store.loadIdNamePairs();
         store.getAllPlaylists();
+        store.changePageView("HOME");
     }, []);
 
     function togglePlayer() {
@@ -90,6 +91,7 @@ const HomeScreen = () => {
                         id='get-comments-button'
                         variant="contained"
                         onClick={toggleComment}
+                        disabled={(store.currentList.publishedDate === null)}
                         sx={{ backgroundColor: (playerComment === "PLAYER") ? '#d4d4f5' : '#be3d3d', 
                         color:'white', 
                         '&:hover':{ backgroundColor:'gray', color:'white' } }}>
@@ -102,27 +104,21 @@ const HomeScreen = () => {
 
         if(store.pageView === "HOME") {
             listCard = 
-            <div id="list-selector-list">           
-                <WorkspaceScreen isGuest={false} />
-            </div>;
+            <div id="list-selector-list"><WorkspaceScreen /></div>;
         }
         else if(store.pageView === "ALL") {
             listCard = 
-            <div id="list-selector-list"> 
-                <AllScreen isGuest={false} />
-            </div>;
+            <div id="list-selector-list"><AllScreen /></div>;
         }
         else if(store.pageView === "USER") {
             listCard = 
-            <div id="list-selector-list"> 
-                <UserScreen isGuest={false} />
-            </div>;
+            <div id="list-selector-list"><UserScreen /></div>;
         }
     }
 
     return (
         <div id="playlist-selector">
-            <NavBar isGuest={false} />
+            <NavBar />
             <Stack direction="row" spacing={1}>
                 { listCard }
                 <MUIDeleteModal />

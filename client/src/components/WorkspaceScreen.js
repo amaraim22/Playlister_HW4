@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -24,7 +24,6 @@ const WorkspaceScreen = () => {
 
     useEffect(() => {
         store.loadIdNamePairs();
-        store.getAllPlaylists();
     }, []);
 
     const handleChange = (panel, isExpanded) => (event) => {
@@ -62,7 +61,6 @@ const WorkspaceScreen = () => {
                     <AccordionSummary>
                         <ListCard
                         playlist={pair.playlist}
-                        selected={false}
                         published={(pair.playlist.publishedDate != null)}
                         isExpanded={(expand === pair._id)}
                         isHome={(store.pageView === "HOME")}

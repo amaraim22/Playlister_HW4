@@ -103,7 +103,7 @@ function AuthContextProvider(props) {
                     loggedIn: false,
                     modalMsg: false,
                     modalVisible: false,
-                    isGuest: true
+                    isGuest: payload
                 })
             }
             default:
@@ -199,9 +199,10 @@ function AuthContextProvider(props) {
         })
     }
 
-    auth.guestUser = function() {
+    auth.guestUser = function(guestValue) {
         authReducer( {
-            type: AuthActionType.GUEST_USER
+            type: AuthActionType.GUEST_USER,
+            payload: guestValue
         })
     }
 

@@ -85,6 +85,11 @@ export default function AppBanner() {
             return <AccountCircle sx={{color: '#be3d3d', fontSize: 30 }}/>;
     }
 
+    function handleGuest() {
+        if (!(auth.loggedIn && auth.user != null))
+            auth.guestUser(false);
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -96,7 +101,9 @@ export default function AppBanner() {
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
                         <Link style={{ textDecoration: 'none', color: '#be3d3d', fontSize:35, fontFamily: 'Brush Script MT', fontWeight: 'bold' }} 
-                            to='/'>Playlister</Link>
+                            to='/'
+                            onClick={handleGuest}
+                            >Playlister</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}></Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

@@ -173,7 +173,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             // START EDITING A LIST NAME
@@ -232,14 +231,12 @@ function GlobalStoreContextProvider(props) {
                     ...prevState,
                     pageView: payload,
                     currentList: null,
-                    filter: "",
                 }));
             }
             case GlobalStoreActionType.GET_ALL_PLAYLISTS: {
                 return setStore((prevState) => ({
                     ...prevState,
                     allPlaylists: payload,
-                    filter: "",
                 }));
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM

@@ -28,7 +28,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { playlist, selected, published, isExpanded, isHome } = props;
+    const { playlist, published, isExpanded, isHome  } = props;
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -90,11 +90,6 @@ function ListCard(props) {
             playlist.dislikers.push(auth.user.username);
         }
         store.updateCurrentList(playlist)
-    }
-
-    let selectClass = "unselected-list-card";
-    if (selected) {
-        selectClass = "selected-list-card";
     }
 
     let buttonStyle = { backgroundColor:'#be3d3d', '&:hover':{ backgroundColor:'gray' }, margin:1 }
@@ -214,6 +209,7 @@ function ListCard(props) {
                             id='duplicate-button'
                             onClick={handleDuplicateList}
                             variant="contained"
+                            disabled={auth.isGuest}
                             sx={ buttonStyle }>
                                 Duplicate
                         </Button>
@@ -232,15 +228,15 @@ function ListCard(props) {
             action={
                 <div id="buttonbox" > 
                     <Stack direction="row" justifyContent="space-between" spacing={2} >
-                        <IconButton onClick={addLike}>
-                            <ThumbUpOutlined sx={{fontSize:35, 
-                            color: ((playlist.likers.includes(auth.user.username))?"#be3d3d":"gray")}}
+                        <IconButton onClick={addLike} disabled={auth.isGuest}>
+                            <ThumbUpOutlined sx={{ fontSize:35, 
+                            color: (auth.isGuest) ? "gray" : ((playlist.likers.includes(auth.user.username))?"#be3d3d":"black") }}
                             ></ThumbUpOutlined>
                         </IconButton>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.likers.length}</Typography>
-                        <IconButton onClick={addDislike}>
+                        <IconButton onClick={addDislike} disabled={auth.isGuest}>
                             <ThumbDownOutlined sx={{fontSize:35,
-                            color: ((playlist.dislikers.includes(auth.user.username))?"#be3d3d":"gray")}}
+                            color: (auth.isGuest) ? "gray" : ((playlist.dislikers.includes(auth.user.username))?"#be3d3d":"black")}}
                             ></ThumbDownOutlined>
                         </IconButton>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.dislikers.length}</Typography>

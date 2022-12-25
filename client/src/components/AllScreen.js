@@ -1,16 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 
 import ListCard from './ListCard.js'
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import { Accordion } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 /*
@@ -19,13 +18,12 @@ import Button from '@mui/material/Button';
     
     @author McKilla Gorilla
 */
-function AllScreen(props) {
+function AllScreen() {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [expand, setExpanded] = useState(false);
-    const { isGuest } = props;
 
     useEffect(() => {
-        store.loadIdNamePairs();
         store.getAllPlaylists();
     }, []);
 
@@ -35,13 +33,17 @@ function AllScreen(props) {
         setExpanded(isExpanded ? false : panel);
         if (isExpanded === false) {
             store.setCurrentList(panel);
-            store.incrementListens(panel);
+            if (auth.isGuest === false) {
+                store.incrementListens(panel);
+                store.loadIdNamePairs();
+            }
         }
         else
             store.closeCurrentList(); 
     };
 
     let allLists = [];
+    console.log(store.allPlaylists);
     if(store.allPlaylists != null) {
         allLists = store.allPlaylists.filter(pair => pair.playlist.publishedDate != null);
     }
@@ -55,32 +57,31 @@ function AllScreen(props) {
             {
                 allLists.map((pair) => (
                     <Accordion
-                expanded={expand === pair._id}
-                key={pair._id}
-                >
-                    <AccordionSummary>
-                        <ListCard
-                        playlist={pair.playlist}
-                        selected={false}
-                        published={(pair.playlist.publishedDate != null)}
-                        isExpanded={(expand === pair._id)}
-                        isHome={(store.pageView === "HOME")}
-                        />
-                        <Button 
-                        onClick={handleChange(pair._id, (expand === pair._id))} 
-                        sx={{ '&:hover':{ backgroundColor:'#ffffff'} , 
-                            "& .MuiTouchRipple-child": { backgroundColor: `#d3d3d3 !important` }
-                        }}
-                        >
-                            {(expand === pair._id) ? 
-                            <ExpandLessIcon sx={{ color:'black' }} /> : 
-                            <ExpandMoreIcon sx={{ color:'black' }} />}
-                        </Button>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        { }
-                    </AccordionDetails>
-                </Accordion>  
+                    expanded={expand === pair._id}
+                    key={pair._id}
+                    >
+                        <AccordionSummary>
+                            <ListCard
+                            playlist={pair.playlist}
+                            published={(pair.playlist.publishedDate != null)}
+                            isExpanded={(expand === pair._id)}
+                            isHome={(store.pageView === "HOME")}
+                            />
+                            <Button 
+                            onClick={handleChange(pair._id, (expand === pair._id))} 
+                            sx={{ '&:hover':{ backgroundColor:'#ffffff'} , 
+                                "& .MuiTouchRipple-child": { backgroundColor: `#d3d3d3 !important` }
+                            }}
+                            >
+                                {(expand === pair._id) ? 
+                                <ExpandLessIcon sx={{ color:'black' }} /> : 
+                                <ExpandMoreIcon sx={{ color:'black' }} />}
+                            </Button>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            { }
+                        </AccordionDetails>
+                    </Accordion>  
                     
                 ))
             }

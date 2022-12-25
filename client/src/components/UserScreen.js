@@ -1,16 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 
 import ListCard from './ListCard.js'
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import { Accordion } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 /*
@@ -19,13 +18,12 @@ import Button from '@mui/material/Button';
     
     @author McKilla Gorilla
 */
-function UserScreen(props) {
+function UserScreen() {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [expand, setExpanded] = useState(false);
-    const { isGuest } = props;
 
     useEffect(() => {
-        store.loadIdNamePairs();
         store.getAllPlaylists();
     }, []);
     
@@ -35,7 +33,9 @@ function UserScreen(props) {
         setExpanded(isExpanded ? false : panel);
         if (isExpanded === false) {
             store.setCurrentList(panel);
-            store.incrementListens(panel);
+            if (auth.isGuest === false) {
+                store.incrementListens(panel);
+            }
         }
         else
             store.closeCurrentList(); 
@@ -60,7 +60,6 @@ function UserScreen(props) {
                     <AccordionSummary>
                         <ListCard
                         playlist={pair.playlist}
-                        selected={false}
                         published={(pair.playlist.publishedDate != null)}
                         isExpanded={(expand === pair._id)}
                         isHome={(store.pageView === "HOME")}

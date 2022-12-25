@@ -1,5 +1,6 @@
 import { GlobalStoreContext } from '../store'
 import { useContext, useState } from 'react'
+import AuthContext from '../auth'
 
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -15,9 +16,9 @@ import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function NavBar(props) {
+export default function NavBar() {
     const { store } = useContext(GlobalStoreContext);
-    const { isGuest } = props;
+    const { auth } = useContext(AuthContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
@@ -102,14 +103,16 @@ export default function NavBar(props) {
                     >
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <IconButton disabled={isGuest} onClick={handleChangeView("HOME")}>
-                            <Home sx={(store.pageView === "HOME") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }></Home>
+                        <IconButton disabled={(auth.isGuest)} onClick={handleChangeView("HOME")}>
+                            <Home sx={(auth.isGuest) ? {fontSize: 40, color:'#d4d4d4'} : 
+                                (store.pageView === "HOME") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }
+                            />
                         </IconButton>
                         <IconButton onClick={handleChangeView("ALL")}>
-                            <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }></Groups>
+                            <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }/>
                         </IconButton>
                         <IconButton onClick={handleChangeView("USER")}>
-                            <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }></Person>
+                            <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }/>
                         </IconButton>
                     </Stack>
                     <Box sx={{flexGrow:1, ml:'5%'}}>

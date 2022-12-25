@@ -27,7 +27,7 @@ export default function SplashScreen() {
 
     const handleGuest = () => {    
         console.log("handleGuest");
-        auth.guestUser();
+        auth.guestUser(true);
     }
 
     return (
