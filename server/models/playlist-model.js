@@ -22,7 +22,8 @@ const playlistSchema = new Schema(
         dislikers: { type: [String] },
         comments: { type: [{
             body: String,
-            owner: String
+            owner: String,
+            postedDate: Date,
         }]}
     },
     { timestamps: true },

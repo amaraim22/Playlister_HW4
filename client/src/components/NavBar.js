@@ -21,39 +21,6 @@ export default function NavBar(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
-    function handleHome() {
-        store.changePageView("HOME"); 
-        //store.closeCurrentList();      
-    }
-    function handleAll(){
-        store.changePageView("ALL");
-        //store.closeCurrentList(); 
-    }
-    function handleUser(){
-        store.changePageView("USER");
-        //store.closeCurrentList(); 
-    }
-
-    let homeColor = "";
-    if(isGuest)
-        homeColor = {fontSize: 40, color:'gray'};
-    else if(store.pageView === "HOME")
-        homeColor = {fontSize: 40, color:'#FFFEC1'};
-    else   
-        homeColor = {fontSize: 40, color:'black'};
-
-    let allColor = "";
-    if(store.pageView === "ALL")
-        allColor = {fontSize: 40, color:'#FFFEC1'};
-    else   
-        allColor = {fontSize: 40, color:'black'};
-
-    let userColor = "";
-    if(store.pageView === "USER")
-        userColor = {fontSize: 40, color:'#FFFEC1'};
-    else   
-        userColor = {fontSize: 40, color:'black'};
-
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -61,12 +28,13 @@ export default function NavBar(props) {
         setAnchorEl(null);
     };
 
+    const handleChangeView = (viewType) => (event) => {
+        store.changePageView(viewType);     
+    }
     const handleSort = (sortType) => (event) => {
-        console.log(sortType);
         store.sortPlaylists(sortType, store.pageView);
         handleMenuClose();
     }
-
     function handleKeyPress(event){
         if (event.code === "Enter"){
             console.log("Search by " + event.target.value);
@@ -134,9 +102,15 @@ export default function NavBar(props) {
                     >
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <IconButton disabled={isGuest} onClick={handleHome}><Home sx={homeColor}></Home></IconButton>
-                        <IconButton onClick={handleAll}><Groups sx={allColor}></Groups></IconButton>
-                        <IconButton onClick={handleUser}><Person sx={userColor}></Person></IconButton>
+                        <IconButton disabled={isGuest} onClick={handleChangeView("HOME")}>
+                            <Home sx={(store.pageView === "HOME") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }></Home>
+                        </IconButton>
+                        <IconButton onClick={handleChangeView("ALL")}>
+                            <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }></Groups>
+                        </IconButton>
+                        <IconButton onClick={handleChangeView("USER")}>
+                            <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }></Person>
+                        </IconButton>
                     </Stack>
                     <Box sx={{flexGrow:1, ml:'5%'}}>
                         <TextField 

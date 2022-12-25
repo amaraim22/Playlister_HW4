@@ -8,10 +8,12 @@ import AllScreen from './AllScreen'
 import UserScreen from './UserScreen'
 import WorkspaceScreen from './WorkspaceScreen'
 import PlaylisterYoutubePlayer from './PlaylisterYoutubePlayer';
+import CommentsBox from './CommentsBox';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -21,6 +23,7 @@ import Stack from '@mui/material/Stack';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [playerComment, setPlayerComment] = useState("PLAYER");
+    const [commentValue, setCommentValue] = useState("");
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -34,6 +37,13 @@ const HomeScreen = () => {
         setPlayerComment("COMMENT");
     }
 
+    function handleKeyPress(event){
+        if (event.code === "Enter"){
+            store.addComment(store.currentList, event.target.value);
+            setCommentValue("");
+        }
+    }
+
     let listCard = "";
     let youtubePlayer = "";
     let playerCommentBox = "";
@@ -42,11 +52,26 @@ const HomeScreen = () => {
         console.log(store.currentList);
         if (store.currentList != null) {
             if (playerComment === "PLAYER") {
-                playerCommentBox = 
-                <PlaylisterYoutubePlayer currentList={store.currentList} />
+                playerCommentBox = <PlaylisterYoutubePlayer currentList={store.currentList} />
             }
             else {
-                playerCommentBox = "";
+                playerCommentBox = 
+                <div>
+                    <div id="comments-box">
+                        <CommentsBox />
+                    </div>
+                    <Box sx={{flexGrow:1, mt:'2%', mb:'2%'}}>
+                        <TextField
+                        onChange={(event) => {
+                            setCommentValue(event.target.value);
+                          }} 
+                        onKeyUp={(event)=> handleKeyPress(event)}  
+                        sx={{background:"white", width:"95%"}} 
+                        label="Add Comment"
+                        value={commentValue}>
+                        </TextField>
+                    </Box>
+                </div>
             }
 
             youtubePlayer = 

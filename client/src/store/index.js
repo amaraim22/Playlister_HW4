@@ -646,6 +646,14 @@ function GlobalStoreContextProvider(props) {
             payload: null
         });
     }
+    store.addComment = function(list, newCommentBody) {
+        console.log(newCommentBody);
+        let newComment = { body: newCommentBody, owner: auth.user.username, postedDate: new Date() };
+        list.comments.push(newComment);
+        //list.comments = [];
+        console.log(list);
+        store.updateCurrentList(list);
+    }
     store.incrementListens = function(id) {
         async function asyncIncrementListens(id) {
             let response = await api.getPlaylistById(id);
@@ -681,12 +689,12 @@ function GlobalStoreContextProvider(props) {
             else if (propType === "Sort Creation Date") {
                 pairsArray.sort(function(a,b){
                     return new Date(a.playlist.createdAt) - new Date(b.playlist.createdAt);
-                  });                
+                });                
             } 
             else if (propType === "Sort Last Edit Date") {
                 pairsArray.sort(function(a,b){
                     return new Date(b.playlist.updatedAt) - new Date(a.playlist.updatedAt);
-                  });
+                });
             }
 
             storeReducer({

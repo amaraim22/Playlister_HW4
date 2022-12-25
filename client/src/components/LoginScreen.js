@@ -122,7 +122,7 @@ export default function LoginScreen() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login/" variant="body2" color={'#be3d3d'}>
+                                <Link href="/register/" variant="body2" color={'#be3d3d'}>
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>
