@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
@@ -24,9 +25,10 @@ import EditToolbar from './EditToolbar';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected, published, isExpanded } = props;
+    const { playlist, selected, published, isExpanded, isHome } = props;
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -54,14 +56,40 @@ function ListCard(props) {
         store.addNewSong();
     }
     function handleDeleteList() {
-        store.markListForDeletion(idNamePair.playlist._id);
+        store.markListForDeletion(playlist._id);
         store.closeCurrentList();
     }
     function handleDuplicateList() {
-        store.duplicatePlaylist(idNamePair.playlist);
+        store.duplicatePlaylist(playlist);
     }
     function handlePublishList() {
-        store.publishPlaylist(idNamePair.playlist);
+        store.publishPlaylist(playlist);
+    }
+
+    function addLike(){
+        if (playlist.likers.includes(auth.user.username)){
+            playlist.likers.splice(playlist.likers.indexOf(auth.user.username),1)
+            
+        }else if (playlist.dislikers.includes(auth.user.username)){
+            playlist.likers.push(auth.user.username);
+            playlist.dislikers.splice(playlist.dislikers.indexOf(auth.user.username),1)
+        }else{
+            playlist.likers.push(auth.user.username);
+        }
+        store.updateCurrentList(playlist)
+    }
+
+    function addDislike(){
+        if (playlist.dislikers.includes(auth.user.username)){
+            playlist.dislikers.splice(playlist.dislikers.indexOf(auth.user.username),1)
+            
+        }else if (playlist.likers.includes(auth.user.username)){
+            playlist.dislikers.push(auth.user.username);
+            playlist.likers.splice(playlist.likers.indexOf(auth.user.username),1)
+        }else{
+            playlist.dislikers.push(auth.user.username);
+        }
+        store.updateCurrentList(playlist)
     }
 
     let selectClass = "unselected-list-card";
@@ -81,7 +109,7 @@ function ListCard(props) {
                     sx={{ width: '100%'}}
                 >
                     {
-                        idNamePair.playlist.songs.map((song, index) => (
+                        playlist.songs.map((song, index) => (
                             <SongCard
                                 id={'playlist-song-' + (index)}
                                 key={'playlist-song-' + (index)}
@@ -90,7 +118,7 @@ function ListCard(props) {
                             />
                         ))  
                     }
-                </List>            
+                </List>           
             </Box>
             <Box>
                 <Box>
@@ -131,21 +159,33 @@ function ListCard(props) {
 
     let cardElement =
     <Card 
-        key={"listcard-" + idNamePair._id}
+        key={"listcard-" + playlist._id}
         sx={{width:'100%', backgroundColor:'#fffff1'}}>
         <CardHeader
         onDoubleClick={handleToggleEdit}
-        title={idNamePair.name}
-        subheader={"By: " + idNamePair.ownerUsername}
+        title={playlist.name}
+        subheader={"By: " + playlist.ownerUsername}
         >   
         </CardHeader>
         { cardContent }
     </Card>;
 
+    let deleteButton = "";
+    if(isHome) {
+        deleteButton =
+        <Button 
+            id='delete-button'
+            onClick={handleDeleteList}
+            variant="contained"
+            sx={buttonStyle}>
+                Delete
+        </Button>
+    }
+
     if(published === true) {
-        let newDate = new Date(idNamePair.publishedDate);
+        let newDate = new Date(playlist.publishedDate);
         let date = newDate.toDateString();
-        let numListens = idNamePair.listens;
+        let numListens = playlist.listens;
 
         if (isExpanded === true) {
             cardContent =
@@ -156,7 +196,7 @@ function ListCard(props) {
                         sx={{ width: '96%', backgroundColor:'#2C2F70', borderRadius:'5px' }}
                     >
                         {
-                            idNamePair.playlist.songs.map((song, index) => (
+                            playlist.songs.map((song, index) => (
                                 <ListItem
                                     key={"list-song-" + index}
                                     sx={{ color:'white', fontSize:20 }}
@@ -165,22 +205,16 @@ function ListCard(props) {
                                 </ListItem>
                             ))  
                         }
-                    </List>            
+                    </List>           
                 </Box>
                 <Box>
                     <div id="publish-toolbar">
-                        <Button 
-                            id='delete-button'
-                            onClick={handleDeleteList}
-                            variant="contained"
-                            sx={buttonStyle}>
-                                Delete
-                        </Button>
+                        { deleteButton }
                         <Button
                             id='duplicate-button'
                             onClick={handleDuplicateList}
                             variant="contained"
-                            sx={buttonStyle}>
+                            sx={ buttonStyle }>
                                 Duplicate
                         </Button>
                     </div>
@@ -190,22 +224,26 @@ function ListCard(props) {
 
         cardElement = 
         <Card 
-        key={"listcard-" + idNamePair._id}
+        key={"listcard-" + playlist._id}
         sx={{width:'100%', backgroundColor:'#d4d4f5'}}>
             <CardHeader
-            title={idNamePair.name}
-            subheader={"By: " + idNamePair.ownerUsername}
+            title={playlist.name}
+            subheader={"By: " + playlist.ownerUsername}
             action={
                 <div id="buttonbox" > 
                     <Stack direction="row" justifyContent="space-between" spacing={2} >
-                        <IconButton>
-                            <ThumbUpOutlined sx={{fontSize:35}}></ThumbUpOutlined>
+                        <IconButton onClick={addLike}>
+                            <ThumbUpOutlined sx={{fontSize:35, 
+                            color: ((playlist.likers.includes(auth.user.username))?"#be3d3d":"gray")}}
+                            ></ThumbUpOutlined>
                         </IconButton>
-                        <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
-                        <IconButton>
-                            <ThumbDownOutlined sx={{fontSize:35}}></ThumbDownOutlined>
+                        <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.likers.length}</Typography>
+                        <IconButton onClick={addDislike}>
+                            <ThumbDownOutlined sx={{fontSize:35,
+                            color: ((playlist.dislikers.includes(auth.user.username))?"#be3d3d":"gray")}}
+                            ></ThumbDownOutlined>
                         </IconButton>
-                        <Typography sx={{paddingTop:1, fontSize:25}}>{0}</Typography>
+                        <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.dislikers.length}</Typography>
                     </Stack>
                 </div>
             }
@@ -231,14 +269,14 @@ function ListCard(props) {
                 margin="normal"
                 required
                 fullWidth
-                id={"list-" + idNamePair._id}
+                id={"list-" + playlist._id}
                 label="Playlist Name"
                 name="name"
                 autoComplete="Playlist Name"
                 className='list-card'
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
+                defaultValue={playlist.name}
                 inputProps={{style: {fontSize: 48}}}
                 InputLabelProps={{style: {fontSize: 24}}}
                 autoFocus

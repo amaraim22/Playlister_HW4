@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
     
     @author McKilla Gorilla
 */
-function AllScreen(props) {
+function UserScreen(props) {
     const { store } = useContext(GlobalStoreContext);
     const [expand, setExpanded] = useState(false);
     const { isGuest } = props;
@@ -28,7 +28,7 @@ function AllScreen(props) {
         store.loadIdNamePairs();
         store.getAllPlaylists();
     }, []);
-
+    
     const handleChange = (panel, isExpanded) => (event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -42,12 +42,11 @@ function AllScreen(props) {
     };
 
     let allLists = [];
-    if(store.allPlaylists != null) {
-        allLists = store.allPlaylists.filter(pair => pair.playlist.publishedDate != null);
-    }
-
     if(store.filter !== "") {
-        allLists = allLists.filter(pair => pair.name.toLowerCase().includes(store.filter.toLowerCase())); 
+        if(store.allPlaylists != null) {
+            allLists = store.allPlaylists.filter(pair => pair.playlist.publishedDate != null);
+            allLists = allLists.filter(pair => pair.playlist.ownerUsername.toLowerCase().includes(store.filter.toLowerCase())); 
+        }
     }
 
     return (
@@ -88,4 +87,4 @@ function AllScreen(props) {
     )
 }
 
-export default AllScreen;
+export default UserScreen;

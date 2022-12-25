@@ -40,7 +40,6 @@ const WorkspaceScreen = () => {
     };
 
     let modalJSX = "";
-
     if (store) {
         if (store.isEditSongModalOpen()) {
             modalJSX = <MUIEditSongModal />;
@@ -62,10 +61,11 @@ const WorkspaceScreen = () => {
                 >
                     <AccordionSummary>
                         <ListCard
-                        idNamePair={pair}
+                        playlist={pair.playlist}
                         selected={false}
-                        published={(pair.publishedDate != null)}
+                        published={(pair.playlist.publishedDate != null)}
                         isExpanded={(expand === pair._id)}
+                        isHome={(store.pageView === "HOME")}
                         />
                         <Button 
                         onClick={handleChange(pair._id, (expand === pair._id))} 

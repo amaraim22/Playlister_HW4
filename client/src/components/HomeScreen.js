@@ -5,6 +5,7 @@ import MUIDeleteModal from './MUIDeleteModal'
 import NavBar from './NavBar.js';
 import Statusbar from './Statusbar.js';
 import AllScreen from './AllScreen'
+import UserScreen from './UserScreen'
 import WorkspaceScreen from './WorkspaceScreen'
 import PlaylisterYoutubePlayer from './PlaylisterYoutubePlayer';
 
@@ -35,55 +36,43 @@ const HomeScreen = () => {
 
     let listCard = "";
     let youtubePlayer = "";
+    let playerCommentBox = "";
 
     if (store) {
         console.log(store.currentList);
-        if(store.currentList != null) {
+        if (store.currentList != null) {
             if (playerComment === "PLAYER") {
-                youtubePlayer = 
-                <div id="youtube-player">
-                    <Box>
-                        <Button 
-                            id='get-player-button'
-                            variant="contained"
-                            onClick={togglePlayer}
-                            sx={{ backgroundColor:'#be3d3d', color:'white', '&:hover':{ backgroundColor:'gray', color:'white' } }}>
-                                Player
-                        </Button>
-                        <Button
-                            id='get-comments-button'
-                            variant="contained"
-                            onClick={toggleComment}
-                            sx={{ backgroundColor: '#d4d4f5', color:'black', '&:hover':{ backgroundColor:'gray', color:'white' } }}>
-                                Comments
-                        </Button>
-                    </Box>
-                    <PlaylisterYoutubePlayer 
-                        currentList={store.currentList} 
-                        />
-                </div>
+                playerCommentBox = 
+                <PlaylisterYoutubePlayer currentList={store.currentList} />
             }
-            else if (playerComment === "COMMENT") {
-                youtubePlayer = 
-                <div id="youtube-player">
-                    <Box>
-                        <Button 
-                            id='get-player-button'
-                            variant="contained"
-                            onClick={togglePlayer}
-                            sx={{ backgroundColor: '#d4d4f5', color:'black', '&:hover':{ backgroundColor:'gray', color:'white' } }}>
-                                Player
-                        </Button>
-                        <Button
-                            id='get-comments-button'
-                            variant="contained"
-                            onClick={toggleComment}
-                            sx={{ backgroundColor: '#be3d3d', color:'white', '&:hover':{ backgroundColor:'gray', color:'white'} }}>
-                                Comments
-                        </Button>
-                    </Box>
-                </div>
+            else {
+                playerCommentBox = "";
             }
+
+            youtubePlayer = 
+            <div id="youtube-player">
+                <Box>
+                    <Button 
+                        id='get-player-button'
+                        variant="contained"
+                        onClick={togglePlayer}
+                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#be3d3d' : '#d4d4f5', 
+                        color:'white', 
+                        '&:hover':{ backgroundColor:'gray', color:'white' } }}>
+                            Player
+                    </Button>
+                    <Button
+                        id='get-comments-button'
+                        variant="contained"
+                        onClick={toggleComment}
+                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#d4d4f5' : '#be3d3d', 
+                        color:'white', 
+                        '&:hover':{ backgroundColor:'gray', color:'white' } }}>
+                            Comments
+                    </Button>
+                    { playerCommentBox }
+                </Box>
+            </div>
         }  
 
         if(store.pageView === "HOME") {
@@ -96,6 +85,12 @@ const HomeScreen = () => {
             listCard = 
             <div id="list-selector-list"> 
                 <AllScreen isGuest={false} />
+            </div>;
+        }
+        else if(store.pageView === "USER") {
+            listCard = 
+            <div id="list-selector-list"> 
+                <UserScreen isGuest={false} />
             </div>;
         }
     }
