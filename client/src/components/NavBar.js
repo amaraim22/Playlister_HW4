@@ -44,6 +44,8 @@ export default function NavBar() {
     }
 
     const menuId = 'primary-search-account-menu';
+    let inputPropsStyle = {style: {fontSize: 15, fontFamily:'Raleway'}}
+    let sortItemStyle = {fontFamily:'Raleway', fontWeight:'bold', color:'#463f3a'}
 
     let sortMenuItems = 
         <Menu
@@ -61,9 +63,9 @@ export default function NavBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleSort("Sort Creation Date")}>By Creation Date (Old-New)</MenuItem>
-            <MenuItem onClick={handleSort("Sort Last Edit Date")}>By Last Edit Date (New-Old)</MenuItem>
-            <MenuItem onClick={handleSort("Sort Name")}>By Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleSort("Sort Creation Date")} style={sortItemStyle}>By Creation Date (Old-New)</MenuItem>
+            <MenuItem onClick={handleSort("Sort Last Edit Date")} style={sortItemStyle}>By Last Edit Date (New-Old)</MenuItem>
+            <MenuItem onClick={handleSort("Sort Name")} style={sortItemStyle}>By Name (A-Z)</MenuItem>
         </Menu>
     
     if (store.pageView === "ALL" || store.pageView === "USER") {
@@ -83,18 +85,18 @@ export default function NavBar() {
                 open={isMenuOpen}
                 onClose={handleMenuClose}
             >
-                <MenuItem onClick={handleSort("Sort Name")}>Name (A - Z)</MenuItem>
-                <MenuItem onClick={handleSort("Sort Publish Date")}>Publish Date (Newest)</MenuItem>
-                <MenuItem onClick={handleSort("Sort Listens")}>Listens (High - Low)</MenuItem>
-                <MenuItem onClick={handleSort("Sort Likes")}>Likes (High - Low)</MenuItem>
-                <MenuItem onClick={handleSort("Sort Dislikes")}>Dislikes (High - Low)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Name")} style={sortItemStyle}>Name (A - Z)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Publish Date")} style={sortItemStyle}>Publish Date (Newest)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Listens")} style={sortItemStyle}>Listens (High - Low)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Likes")} style={sortItemStyle}>Likes (High - Low)</MenuItem>
+                <MenuItem onClick={handleSort("Sort Dislikes")} style={sortItemStyle}>Dislikes (High - Low)</MenuItem>
             </Menu>
     }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar id="nav-bar" position="static">
-                <Toolbar sx = {{ backgroundColor: '#E0E0E0'}}>
+                <Toolbar sx = {{ backgroundColor: '#ffe8d6'}}>
                     <Typography                        
                         variant="h4"
                         noWrap
@@ -104,26 +106,28 @@ export default function NavBar() {
                     </Typography>
                     <Stack direction="row" spacing={1}>
                         <IconButton disabled={(auth.isGuest)} onClick={handleChangeView("HOME")}>
-                            <Home sx={(auth.isGuest) ? {fontSize: 40, color:'#d4d4d4'} : 
-                                (store.pageView === "HOME") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }
+                            <Home sx={(auth.isGuest) ? {fontSize: 40, color:'#bcb8b1'} : 
+                                (store.pageView === "HOME") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }
                             />
                         </IconButton>
                         <IconButton onClick={handleChangeView("ALL")}>
-                            <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }/>
+                            <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }/>
                         </IconButton>
                         <IconButton onClick={handleChangeView("USER")}>
-                            <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#FFFEC1'} : {fontSize: 40, color:'black'} }/>
+                            <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }/>
                         </IconButton>
                     </Stack>
                     <Box sx={{flexGrow:1, ml:'5%'}}>
                         <TextField 
+                        inputProps={inputPropsStyle}
+                        InputLabelProps={inputPropsStyle}
                         onKeyUp={(event)=> handleKeyPress(event)}  
                         sx={{background:"white", width:"80%"}} 
                         label="Search">
                         </TextField>
                     </Box>
-                    <Typography sx={{fontWeight:"bold", color:'black'}}> SORT BY </Typography>
-                    <IconButton onClick={handleProfileMenuOpen}><Sort sx={{ fontSize: 40, color:'black'}}></Sort></IconButton>
+                    <Typography sx={{fontWeight:"bold", color:'#463f3a', fontFamily:'Raleway'}}> SORT BY </Typography>
+                    <IconButton onClick={handleProfileMenuOpen}><Sort sx={{ fontSize: 40, color:'#463f3a'}}></Sort></IconButton>
                 </Toolbar>
             </AppBar>
             { sortMenuItems }

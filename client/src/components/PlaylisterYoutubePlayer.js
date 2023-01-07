@@ -26,8 +26,8 @@ function PlaylisterYoutubePlayer(props) {
     //let currentSongIndex = 0;
 
     const playerOptions = {
-        height: '220',
-        width: '420',
+        height: '300',
+        width: '520',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
@@ -108,53 +108,64 @@ function PlaylisterYoutubePlayer(props) {
     }
     function handleNextSong() {
         incSong();
-        console.log(currentSongIndex);
         loadAndPlayCurrentSong(currentPlayer);
         handleStartPlaying();
     }
     function handlePrevSong() {
         decSong();
-        console.log(currentSongIndex);
         loadAndPlayCurrentSong(currentPlayer);
         handleStartPlaying();
     }
+
+    let currentSongStyle ={fontSize:15, textAlign:'center', fontFamily: 'Raleway', color:'#463f3a'}
+    let songPlayerButtons = {fontSize:35, color:'#463f3a'}
 
     let playerButtons = 
         <div id="youtube-player-button">
             <Stack direction="row" justifyContent="center" alignItems="center" spacing={0.5} >
                 <IconButton disabled={!(currentSongIndex >= 0)}>
-                    <FastRewind onClick={handlePrevSong} sx={{fontSize:35, color:'black'}}></FastRewind>
+                    <FastRewind onClick={handlePrevSong} sx={songPlayerButtons}></FastRewind>
                 </IconButton>
                 <IconButton>
-                    <Stop onClick={handleStopPlaying} sx={{fontSize:35, color:'black'}}></Stop>
+                    <Stop onClick={handleStopPlaying} sx={songPlayerButtons}></Stop>
                 </IconButton>
                 <IconButton>
-                    <PlayArrow onClick={handleStartPlaying} sx={{fontSize:35, color:'black'}}></PlayArrow>
+                    <PlayArrow onClick={handleStartPlaying} sx={songPlayerButtons}></PlayArrow>
                 </IconButton>
                 <IconButton disabled={!(currentSongIndex < playlist.length)}>
-                    <FastForward onClick={handleNextSong} sx={{fontSize:35, color:'black'}}></FastForward>
+                    <FastForward onClick={handleNextSong} sx={songPlayerButtons}></FastForward>
                 </IconButton>
             </Stack>
         </div>
+
     let currentSongText = "";
     if (currentSongPlaying) {
         currentSongText =
             <div id="current-song-text">
-                <Typography sx={{fontSize:15, textAlign:'center'}}>Playlist: { currentList.name }</Typography>
-                <Typography sx={{fontSize:15, textAlign:'center'}}>Song Number: { currentSongIndex + 1 }</Typography>
-                <Typography sx={{fontSize:15, textAlign:'center'}}>Title: { currentSongPlaying.title }</Typography>
-                <Typography sx={{fontSize:15, textAlign:'center'}}>Artist: { currentSongPlaying.artist }</Typography>
+                <Typography sx={currentSongStyle}><span style={{fontWeight:'bold'}}>Playlist: </span> { currentList.name }</Typography>
+                <Typography sx={currentSongStyle}><span style={{fontWeight:'bold'}}>Song Number: </span> { currentSongIndex + 1 }</Typography>
+                <Typography sx={currentSongStyle}><span style={{fontWeight:'bold'}}>Title: </span> { currentSongPlaying.title }</Typography>
+                <Typography sx={currentSongStyle}><span style={{fontWeight:'bold'}}>Artist: </span> { currentSongPlaying.artist }</Typography>
             </div>
+    }
+    
+    let youtube = 
+        <div id='empty-playlist-text'>ADD A SONG TO LOAD YOUTUBE PLAYER</div>
+    if (playlist.length != 0) {
+        youtube = 
+        <YouTube
+        videoId={playlist[currentSongIndex]}
+        opts={playerOptions}
+        onReady={onPlayerReady}
+        onStateChange={onPlayerStateChange} />
     }
 
     return <div>
-            <YouTube
-            videoId={playlist[currentSongIndex]}
-            opts={playerOptions}
-            onReady={onPlayerReady}
-            onStateChange={onPlayerStateChange} />
+            { youtube }
             <div id="youtube-player-text">
-                <Typography sx={{paddingTop:1, fontSize:20, textAlign:'center'}}>Now Playing</Typography>
+                <Typography 
+                sx={{paddingTop:'1.5%', fontSize:'25px', textAlign:'center', fontWeight:'bold', color:'#463f3a'}}>
+                    Now Playing</Typography>
             </div>
             { currentSongText }
             { playerButtons }

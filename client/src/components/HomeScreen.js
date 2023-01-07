@@ -82,8 +82,9 @@ const HomeScreen = () => {
                         id='get-player-button'
                         variant="contained"
                         onClick={togglePlayer}
-                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#be3d3d' : '#d4d4f5', 
-                        color:'white', 
+                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#cb997e' : '#ffe8d6', 
+                        color: (playerComment === "PLAYER") ? '#white' : '#cb997e',
+                        fontWeight:'bold', fontFamily:'Raleway',
                         '&:hover':{ backgroundColor:'gray', color:'white' } }}>
                             Player
                     </Button>
@@ -92,8 +93,9 @@ const HomeScreen = () => {
                         variant="contained"
                         onClick={toggleComment}
                         disabled={(store.currentList.publishedDate === null)}
-                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#d4d4f5' : '#be3d3d', 
-                        color:'white', 
+                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#ffe8d6' : '#cb997e', 
+                        color: (playerComment === "PLAYER") ? '#cb997e' : '#white', 
+                        fontWeight:'bold', fontFamily:'Raleway',
                         '&:hover':{ backgroundColor:'gray', color:'white' } }}>
                             Comments
                     </Button>

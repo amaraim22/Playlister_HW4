@@ -23,10 +23,13 @@ function Statusbar() {
             statusbar = 
             <div id="playlister-statusbar">
                 <IconButton onClick={handleCreateNewList}>
-                    <AddIcon sx={{color: "black", fontSize: 60}}  />
+                    <AddIcon sx={{color: "#463f3a", fontSize: 60}}  />
                 </IconButton> 
-                <Typography sx={{color: "black"}} variant="h4">Your Lists</Typography>  
+                <Typography sx={{color: "#463f3a", fontFamily:'Raleway', fontWeight:'bold'}} variant="h4">Add New Playlist</Typography>  
             </div>
+        }
+        else {
+            statusbar = <div id="playlister-statusbar"></div>
         }
     }
 

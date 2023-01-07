@@ -19,7 +19,8 @@ function EditToolbar() {
         store.redo();
     }
 
-    let buttonStyle = { backgroundColor:'#be3d3d', '&:hover':{ backgroundColor:'gray' }, margin:1 }
+    let buttonStyle = { color:"white", fontWeight:'bold', fontFamily:'Raleway', backgroundColor:'#cb997e', 
+    '&:hover':{ backgroundColor:'gray' }, margin:1 }
 
     return (
         <div id="edit-toolbar">

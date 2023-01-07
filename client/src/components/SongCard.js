@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 
-import RemoveIcon from '@mui/icons-material/Close';
+import DeleteOutline from '@mui/icons-material/DeleteOutline';
+import EditOutlined from '@mui/icons-material/EditOutlined';
 
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
@@ -33,13 +34,13 @@ function SongCard(props) {
     function handleRemoveSong(event) {
         store.showRemoveSongModal(index, song);
     }
-    function handleClick(event) {
-        if (event.detail === 2) {
-            store.showEditSongModal(index, song);
-        }
+    function handleEdit(event) {
+        store.showEditSongModal(index, song);
     }
 
     let cardClass = "list-card unselected-list-card";
+    let songCardButton = { background:'transparent', color:'white', '&:hover':{ color:'#463f3a' }, fontSize: 30 }
+
     return (
         <div
             key={index}
@@ -51,14 +52,20 @@ function SongCard(props) {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             draggable="true"
-            onClick={handleClick}
         >
-            {index + 1}. {song.title} by {song.artist} 
-            <RemoveIcon 
+            <div style={{marginTop: '-1.5%', width:'7%', float:'left', fontSize:'60px', fontWeight:'bold'}}><span>{index + 1}</span></div>
+            <span style={{fontSize:'25px', fontWeight:'bold'}}>{song.title}</span> <br></br>
+            <span style={{fontSize:'20px'}}>{song.artist}</span>
+            <DeleteOutline 
                 id={"remove-song-" + index}
                 className="list-card-button"
                 onClick={handleRemoveSong}
-                sx={{ marginTop:'-1%', backgroundColor:'#2C2F70', color:'white', '&:hover':{ backgroundColor:'gray' }, fontSize: 40 }}  /> 
+                sx={songCardButton}  />
+            <EditOutlined 
+                id={"edit-song-" + index}
+                className="list-card-button"
+                onClick={handleEdit}
+                sx={songCardButton}  /> 
         </div>
     );
 }

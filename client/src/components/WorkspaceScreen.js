@@ -22,10 +22,6 @@ const WorkspaceScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [expand, setExpanded] = useState(false);
 
-    useEffect(() => {
-        store.loadIdNamePairs();
-    }, []);
-
     const handleChange = (panel, isExpanded) => (event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -51,7 +47,7 @@ const WorkspaceScreen = () => {
     console.log(store.currentList);
 
     return (
-        <List sx={{ width: '98%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
+        <List sx={{ width: '98%', left: '2%', bgcolor: '#ddbea9', overflowY:"scroll", borderRadius:'5px', marginTop:'-0.5%' }}>
         {
             store.idNamePairs.map((pair) => (
                 <Accordion

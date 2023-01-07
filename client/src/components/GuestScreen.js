@@ -4,6 +4,7 @@ import AuthContext from '../auth'
 
 import AllScreen from './AllScreen'
 import NavBar from './NavBar.js';
+import Statusbar from './Statusbar.js';
 import UserScreen from './UserScreen'
 import PlaylisterYoutubePlayer from './PlaylisterYoutubePlayer';
 import CommentsBox from './CommentsBox';
@@ -94,6 +95,7 @@ const GuestScreen = () => {
                 { listCard }
                 { youtubePlayer }
             </Stack>
+            <Statusbar />
         </div>)
 }
 

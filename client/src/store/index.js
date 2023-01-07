@@ -105,7 +105,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             // CREATE A NEW LIST
@@ -134,7 +133,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             // PREPARE TO DELETE A LIST
@@ -612,6 +610,7 @@ function GlobalStoreContextProvider(props) {
                     payload: playlist
                 });
                 store.loadIdNamePairs();
+                store.getAllPlaylists();
                 history.push("/");
             }
         }

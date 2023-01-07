@@ -20,12 +20,7 @@ import Button from '@mui/material/Button';
 */
 function UserScreen() {
     const { store } = useContext(GlobalStoreContext);
-    const { auth } = useContext(AuthContext);
     const [expand, setExpanded] = useState(false);
-
-    useEffect(() => {
-        store.getAllPlaylists();
-    }, []);
     
     const handleChange = (panel, isExpanded) => (event) => {
         event.stopPropagation();
@@ -33,9 +28,7 @@ function UserScreen() {
         setExpanded(isExpanded ? false : panel);
         if (isExpanded === false) {
             store.setCurrentList(panel);
-            if (auth.isGuest === false) {
-                store.incrementListens(panel);
-            }
+            store.incrementListens(panel);
         }
         else
             store.closeCurrentList(); 
@@ -50,7 +43,7 @@ function UserScreen() {
     }
 
     return (
-        <List sx={{ width: '98%', left: '1%', bgcolor: '#e0e0e0', overflowY:"scroll" }}>
+        <List sx={{ width: '98%', left: '2%', bgcolor: '#ddbea9', overflowY:"scroll", borderRadius:'5px', marginTop:'-0.5%' }}>
             {
                 allLists.map((pair) => (
                     <Accordion

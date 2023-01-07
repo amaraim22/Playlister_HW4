@@ -30,6 +30,8 @@ export default function AppBanner() {
         auth.logoutUser();
     }
 
+    let menuItemStyle = {fontFamily:'Raleway', fontWeight:'bold', color:'#463f3a'}
+
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
@@ -47,8 +49,8 @@ export default function AppBanner() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create Account</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><a style={menuItemStyle} href='/login/'>Login</a></MenuItem>
+            <MenuItem onClick={handleMenuClose}><a style={menuItemStyle} href='/register/'>Create Account</a></MenuItem>
         </Menu>
     );
     const loggedInMenu = 
@@ -67,7 +69,7 @@ export default function AppBanner() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout} sx={menuItemStyle}>Logout</MenuItem>
         </Menu>        
 
     let menu = loggedOutMenu;
@@ -82,7 +84,7 @@ export default function AppBanner() {
                     onClick={handleProfileMenuOpen}
                     ><text id="userInitials-text">{userInitials}</text></div>;
         else
-            return <AccountCircle sx={{color: '#be3d3d', fontSize: 30 }}/>;
+            return <AccountCircle sx={{color: '#6b705c', fontSize: 30 }}/>;
     }
 
     function handleGuest() {
@@ -93,14 +95,14 @@ export default function AppBanner() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
-                <Toolbar sx = {{ backgroundColor: '#c4c4c4'}}>
+                <Toolbar sx = {{ backgroundColor: '#ddbea9'}}>
                     <Typography                        
                         variant="h4"
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: '#be3d3d', fontSize:35, fontFamily: 'Brush Script MT', fontWeight: 'bold' }} 
+                        <Link style={{ textDecoration: 'none', color: '#6b705c', fontSize:35, fontFamily: 'Brush Script MT', fontWeight: 'bold' }} 
                             to='/'
                             onClick={handleGuest}
                             >Playlister</Link>

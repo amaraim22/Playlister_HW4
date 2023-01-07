@@ -6,12 +6,12 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import { Typography, Card, CardHeader, Stack, CardContent} from '@mui/material';
 import {ThumbUpOutlined, ThumbDownOutlined} from '@mui/icons-material';
-
 import AddIcon from '@mui/icons-material/Add';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import EditOutlined from '@mui/icons-material/EditOutlined';
 
 import SongCard from './SongCard.js'
 import EditToolbar from './EditToolbar';
@@ -92,7 +92,8 @@ function ListCard(props) {
         store.updateCurrentList(playlist)
     }
 
-    let buttonStyle = { backgroundColor:'#be3d3d', '&:hover':{ backgroundColor:'gray' }, margin:1 }
+    let buttonStyle = { color:"white", fontWeight:'bold', fontFamily:'Raleway', backgroundColor:'#cb997e', 
+        '&:hover':{ backgroundColor:'gray' }, margin:1 }
 
     let cardContent = "";
     if (isExpanded === true) {
@@ -116,16 +117,16 @@ function ListCard(props) {
                 </List>           
             </Box>
             <Box>
-                <Box>
-                    <Button onClick={handleAddNewSong} 
-                    sx={{marginLeft:'3%', width:"94%", backgroundColor:'#be3d3d', '&:hover':{ backgroundColor:'gray' }}}
-                    >
-                        <AddIcon sx={{color: "white", fontSize: 40}}  /> 
-                        <span style={{color:"white"}}>Add New Song</span>
-                    </Button>  
-                </Box> <br></br>
                 <EditToolbar />
                 <div id="publish-toolbar">
+                    <Button 
+                        id='publish-button'
+                        onClick={handleAddNewSong}
+                        variant="contained"
+                        sx={buttonStyle}>
+                        <AddIcon sx={{color: "white", fontSize: 25}}  /> 
+                        <span style={{color:"white", fontWeight:'bold', fontFamily:'Raleway'}}>Add New Song</span>
+                    </Button>
                     <Button 
                         id='publish-button'
                         onClick={handlePublishList}
@@ -155,11 +156,24 @@ function ListCard(props) {
     let cardElement =
     <Card 
         key={"listcard-" + playlist._id}
-        sx={{width:'100%', backgroundColor:'#fffff1'}}>
+        sx={{width:'100%', backgroundColor:'#f1dca7', color: '#463f3a'}}>
         <CardHeader
-        onDoubleClick={handleToggleEdit}
         title={playlist.name}
         subheader={"By: " + playlist.ownerUsername}
+        action={
+            <div id="buttonbox"> 
+                <Stack direction="row" justifyContent="space-between" spacing={2} >
+                    <IconButton onClick={handleToggleEdit}>
+                    <EditOutlined 
+                id={"edit-list-" + playlist._id}
+                className="list-card-button"
+                sx={{ color:'#463f3a', fontSize: 30 }}  /> 
+                    </IconButton>
+                </Stack>
+            </div>
+        }
+        titleTypographyProps={{variant:'h5', fontFamily:'Raleway', fontWeight:'bold'}}
+        subheaderTypographyProps={{variant:'h7', fontFamily:'Raleway'}}
         >   
         </CardHeader>
         { cardContent }
@@ -188,15 +202,17 @@ function ListCard(props) {
                 <Box sx={{ flexGrow: 1 }}>
                     <List 
                         id="playlist-cards" 
-                        sx={{ width: '96%', backgroundColor:'#2C2F70', borderRadius:'5px' }}
+                        sx={{ width: '96%', backgroundColor:'#6b705c', borderRadius:'5px' }}
                     >
                         {
                             playlist.songs.map((song, index) => (
                                 <ListItem
                                     key={"list-song-" + index}
-                                    sx={{ color:'white', fontSize:20 }}
+                                    sx={{ color:'white'}}
                                 >
-                                    {index + 1}. {song.title} by {song.artist}
+                                    <span style={{fontSize:'25px', fontWeight:'bold', marginRight:'1%'}}>{index + 1}</span> 
+                                    <span style={{fontSize:'25px', fontWeight:'bold', marginRight:'1%'}}>{song.title}</span> 
+                                    <span style={{fontSize:'20px'}}>{song.artist}</span>
                                 </ListItem>
                             ))  
                         }
@@ -221,38 +237,40 @@ function ListCard(props) {
         cardElement = 
         <Card 
         key={"listcard-" + playlist._id}
-        sx={{width:'100%', backgroundColor:'#d4d4f5'}}>
+        sx={{width:'100%', backgroundColor:'#a5a58d', color:'#463f3a', fontFamily:'Raleway'}}>
             <CardHeader
             title={playlist.name}
             subheader={"By: " + playlist.ownerUsername}
             action={
-                <div id="buttonbox" > 
+                <div id="buttonbox"> 
                     <Stack direction="row" justifyContent="space-between" spacing={2} >
                         <IconButton onClick={addLike} disabled={auth.isGuest}>
                             <ThumbUpOutlined sx={{ fontSize:35, 
-                            color: (auth.isGuest) ? "gray" : ((playlist.likers.includes(auth.user.username))?"#be3d3d":"black") }}
+                            color: (auth.isGuest) ? "gray" : ((playlist.likers.includes(auth.user.username))?'#f1dca7':'#463f3a') }}
                             ></ThumbUpOutlined>
                         </IconButton>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.likers.length}</Typography>
                         <IconButton onClick={addDislike} disabled={auth.isGuest}>
                             <ThumbDownOutlined sx={{fontSize:35,
-                            color: (auth.isGuest) ? "gray" : ((playlist.dislikers.includes(auth.user.username))?"#be3d3d":"black")}}
+                            color: (auth.isGuest) ? "gray" : ((playlist.dislikers.includes(auth.user.username))?'#f1dca7':'#463f3a')}}
                             ></ThumbDownOutlined>
                         </IconButton>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.dislikers.length}</Typography>
                     </Stack>
                 </div>
             }
+            titleTypographyProps={{variant:'h5', fontFamily:'Raleway', fontWeight:'bold'}}
+            subheaderTypographyProps={{variant:'h7', fontFamily:'Raleway'}}
             >   
             </CardHeader>
-            <Stack direction="row">
+            <Stack direction="row" justifyContent="space-between">
                 <Typography sx={{margin:'10px', fontSize:15,  marginLeft:'2%'}}>
-                    <span style={{fontWeight:'bold'}}>Published: </span> 
-                    <span style={{fontStyle: 'italic'}}>{ date }</span>
+                    <span style={{fontWeight:'bold', fontFamily:'Raleway'}}>Published: </span> 
+                    <span style={{fontStyle: 'italic', fontFamily:'Raleway'}}>{ date }</span>
                 </Typography>
-                <Typography sx={{margin:'10px', fontSize:15,  marginLeft:'45%'}}>
-                    <span style={{fontWeight:'bold'}}>Listens: </span>
-                    { numListens }
+                <Typography sx={{margin:'10px', fontSize:15, marginRight:'2%'}}>
+                    <span style={{fontWeight:'bold', fontFamily:'Raleway'}}>Listens: </span>
+                    <span style={{fontFamily:'Raleway'}}>{ numListens }</span>
                 </Typography>
             </Stack>
             { cardContent }
@@ -273,10 +291,9 @@ function ListCard(props) {
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
                 defaultValue={playlist.name}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
+                inputProps={{style: {fontSize: '25px', fontFamily:'Raleway'}}}
+                InputLabelProps={{style: {fontSize: '25px', fontFamily:'Raleway'}}}
                 autoFocus
-                sx={{fontSize: '20px'}}
             />
     }
     return (

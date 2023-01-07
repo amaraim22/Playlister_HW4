@@ -5,23 +5,30 @@ import { useHistory } from 'react-router-dom'
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { Container } from '@mui/system';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
 
 export default function SplashScreen() {
     const { auth } = useContext(AuthContext);
 
-    let buttonStyle = { backgroundColor:'#fffec1', color:"black", 
+    let buttonStyle = { backgroundColor:'#a5a58d', color:"white", fontWeight:'bold',
         '&:hover': {
             backgroundColor: '#c4c4c4',
-            color: '#fffec1',
+            color: '#a5a58d',
         },
-        margin:1
+        margin:1,
+        fontFamily:'Raleway',
+        width: '230px',
     };
-    let guestButtonStyle = { backgroundColor:'#d4d4f5', color:"black", 
+    let guestButtonStyle = { backgroundColor:'#cb997e', color:"white", fontWeight:'bold',
         '&:hover': {
             backgroundColor: '#c4c4c4',
-            color: '#d4d4f5',
+            color: '#cb997e',
         },
-        margin:1
+        margin:1,
+        fontFamily:'Raleway',
+        width: '230px',
     };
     const history = useHistory();
 
@@ -31,28 +38,41 @@ export default function SplashScreen() {
     }
 
     return (
-        
         <div id="splash-screen">
-            <div id="splash-screen-welcome">
-                <div id="splash-screen-text">
-                    <Typography sx={{fontWeight: 'bold', fontSize: 25, color: 'black'}}> 
+        <Container component="main" maxWidth="xs">
+        <CssBaseline />
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    padding: '10%',
+                    textAlign: 'center',
+                    width: '100%',
+                    borderRadius: '10px',
+                    borderColor: '#c4c4c4',
+                    borderWidth: '2px',
+                    borderStyle: 'solid',
+                }}
+            >
+                <Typography sx={{fontWeight: 'bold', fontSize: 25, color: 'black', fontFamily:'Raleway'}}> 
                     Welcome to <span id="playlister-text">Playlister</span>
-                    </Typography>
-                    <Typography sx={{fontSize: 18, color: 'black'}}>
-                    Need a place to hold all your favorite songs in a playlist and share them with your friends and the community?
-                    </Typography>
-                </div>
-                
-                <Stack position="relative" width={'50%'}  ml={'25%'} mt={'5%'} mb={'5%'} spacing={"3%"}> 
+                </Typography>
+                <Typography sx={{fontSize: 15, color: 'black', fontFamily:'Raleway', width:'90%'}}>
+                    need a place to hold all your favorite songs in a playlist and share them with friends and community?
+                </Typography>
+                <Stack mt={'5%'} mb={'5%'}> 
+                    <Button className="splash-screen-button" variant="contained" sx = {guestButtonStyle} onClick={handleGuest}>Continue as Guest</Button>
                     <Button className="splash-screen-button" variant="contained" sx = {buttonStyle} onClick={() => history.push("/register/")}>Create Account</Button>
                     <Button className="splash-screen-button" variant="contained" sx = {buttonStyle} onClick={() => history.push("/login/")}>Login</Button>
-                    <Button className="splash-screen-button" variant="contained" sx = {guestButtonStyle} onClick={handleGuest}>Continue as Guest</Button>
                 </Stack>
 
-                <Typography sx={{fontSize: 15, color: 'black'}}> 
+                <Typography sx={{fontSize: 15, color: 'black', fontFamily:'Raleway'}}> 
                 © Amara Im 2022
                 </Typography>
-            </div>
+            </Box>
+        </Container>
         </div>
         
     )

@@ -41,17 +41,26 @@ export default function RegisterScreen() {
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
+        textAlign:'center',
+        borderRadius: '10px',
+        borderColor: '#c4c4c4',
+        borderWidth: '2px',
+        borderStyle: 'solid',
     };
 
-    let modalButtonStyle = { ml: 15, mt: 2, backgroundColor:'#d4d4f5', color:"black", 
+    let modalButtonStyle = { mt: 3, backgroundColor:'#cb997e', color:"white", fontWeight:'bold',
         '&:hover': {
             backgroundColor: '#c4c4c4',
-            color: '#d4d4f5',
+            color: '#cb997e',
         },
+        fontFamily:'Raleway',
     };
 
+    let inputPropsStyle = {style: {fontSize: 15, fontFamily:'Raleway'}}
+
     return (
-        <Container component="main" maxWidth="xs">
+        <div id="splash-screen">
+            <Container component="main" maxWidth="xs">
             <CssBaseline />
 
                 <Modal
@@ -61,7 +70,7 @@ export default function RegisterScreen() {
                 >
                     
                 <Box sx = {modalStyle}>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2, fontFamily:'Raleway', color:'#463f3a' }}>
                     {auth.modalMsg}
                     </Typography>
                     <Button 
@@ -74,17 +83,26 @@ export default function RegisterScreen() {
 
                 <Box
                     sx={{
-                        marginTop: 4,
+                        marginTop: '-10%',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        backgroundColor: 'white',
+                        padding: '10%',
+                        textAlign: 'center',
+                        width: '100%',
+                        borderRadius: '10px',
+                        borderColor: '#c4c4c4',
+                        borderWidth: '2px',
+                        borderStyle: 'solid',
+                        fontFamily:'Raleway',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: '#be3d3d' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#a5a58d' }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign up
+                    <Typography component="h1" variant="h5" sx={{ fontFamily:'Raleway', fontWeight: 'bold', fontSize: 25}}>
+                        Sign Up
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={1}>
@@ -96,6 +114,8 @@ export default function RegisterScreen() {
                                     label="Username"
                                     name="username"
                                     autoComplete="username"
+                                    inputProps={inputPropsStyle}
+                                    InputLabelProps={inputPropsStyle}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -106,6 +126,8 @@ export default function RegisterScreen() {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
+                                    inputProps={inputPropsStyle}
+                                    InputLabelProps={inputPropsStyle}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -116,7 +138,8 @@ export default function RegisterScreen() {
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
-                                    autoFocus
+                                    inputProps={inputPropsStyle}
+                                    InputLabelProps={inputPropsStyle}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -127,6 +150,8 @@ export default function RegisterScreen() {
                                     label="Last Name"
                                     name="lastName"
                                     autoComplete="lname"
+                                    inputProps={inputPropsStyle}
+                                    InputLabelProps={inputPropsStyle}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -138,6 +163,8 @@ export default function RegisterScreen() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                    inputProps={inputPropsStyle}
+                                    InputLabelProps={inputPropsStyle}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -149,6 +176,8 @@ export default function RegisterScreen() {
                                     type="password"
                                     id="passwordVerify"
                                     autoComplete="new-password"
+                                    inputProps={inputPropsStyle}
+                                    InputLabelProps={inputPropsStyle}
                                 />
                             </Grid>
                         </Grid>
@@ -156,24 +185,28 @@ export default function RegisterScreen() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2, backgroundColor:'#fffec1', color:"black", 
+                            sx={{ mt: 3, mb: 2, backgroundColor:'#cb997e', color:"white", fontWeight:'bold',
                             '&:hover': {
                                 backgroundColor: '#c4c4c4',
-                                color: '#fffec1',
-                            }, }}
+                                color: '#cb997e',
+                            },
+                            fontFamily:'Raleway',
+                            width: '315px',
+                            }}
                         >
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login/" variant="body2" color={'#be3d3d'}>
-                                    Already have an account? Sign in
-                                </Link>
+                                <Typography variant="body2" sx={{ fontFamily:'Raleway' }}>
+                                Already have an account? <Link href="/login/" variant="body2" color={'#a5a58d'} sx={{ fontFamily:'Raleway', fontWeight:'bold', textDecoration: 'none' }}> Log In</Link>
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Box>
+                    <Copyright sx={{ mt: 5 }} />
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
             </Container>
+        </div>
     );
 }
