@@ -3,6 +3,7 @@ import { GlobalStoreContext } from '../store'
 
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import EditOutlined from '@mui/icons-material/EditOutlined';
+import Tooltip from '@mui/material/Tooltip';
 
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
@@ -56,16 +57,20 @@ function SongCard(props) {
             <div style={{marginTop: '-1.5%', width:'7%', float:'left', fontSize:'60px', fontWeight:'bold'}}><span>{index + 1}</span></div>
             <span style={{fontSize:'25px', fontWeight:'bold'}}>{song.title}</span> <br></br>
             <span style={{fontSize:'20px'}}>{song.artist}</span>
-            <DeleteOutline 
+            <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>REMOVE SONG</span>} placement="bottom">
+                <DeleteOutline 
                 id={"remove-song-" + index}
                 className="list-card-button"
                 onClick={handleRemoveSong}
                 sx={songCardButton}  />
-            <EditOutlined 
+            </Tooltip>
+            <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>EDIT SONG</span>} placement="bottom">
+                <EditOutlined 
                 id={"edit-song-" + index}
                 className="list-card-button"
                 onClick={handleEdit}
                 sx={songCardButton}  /> 
+            </Tooltip>
         </div>
     );
 }

@@ -15,6 +15,7 @@ import Sort from '@mui/icons-material/Sort';
 import TextField from '@mui/material/TextField';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function NavBar() {
     const { store } = useContext(GlobalStoreContext);
@@ -105,17 +106,23 @@ export default function NavBar() {
                     >
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <IconButton disabled={(auth.isGuest)} onClick={handleChangeView("HOME")}>
-                            <Home sx={(auth.isGuest) ? {fontSize: 40, color:'#bcb8b1'} : 
-                                (store.pageView === "HOME") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }
-                            />
-                        </IconButton>
-                        <IconButton onClick={handleChangeView("ALL")}>
-                            <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }/>
-                        </IconButton>
-                        <IconButton onClick={handleChangeView("USER")}>
-                            <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }/>
-                        </IconButton>
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>HOME</span>} placement="bottom">
+                            <IconButton disabled={(auth.isGuest)} onClick={handleChangeView("HOME")}>
+                                <Home sx={(auth.isGuest) ? {fontSize: 40, color:'#bcb8b1'} : 
+                                    (store.pageView === "HOME") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }
+                                />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>ALL PLAYLISTS</span>} placement="bottom">
+                            <IconButton onClick={handleChangeView("ALL")}>
+                                <Groups sx={ (store.pageView === "ALL") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }/>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>ALL USERS</span>} placement="bottom">
+                            <IconButton onClick={handleChangeView("USER")}>
+                                <Person sx={(store.pageView === "USER") ? {fontSize: 40, color:'#e8ac65'} : {fontSize: 40, color:'#463f3a'} }/>
+                            </IconButton>
+                        </Tooltip>  
                     </Stack>
                     <Box sx={{flexGrow:1, ml:'5%'}}>
                         <TextField 

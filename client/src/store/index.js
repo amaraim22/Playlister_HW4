@@ -140,12 +140,12 @@ function GlobalStoreContextProvider(props) {
                 return setStore((prevState) => ({
                     ...prevState,
                     currentModal : CurrentModal.DELETE_LIST,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     listNameActive: false,
                     listIdMarkedForDeletion: payload.id,
                     listMarkedForDeletion: payload.playlist,
-                    filter: "",
                 }));
             }
             case GlobalStoreActionType.UNMARK_LIST_FOR_DELETION: {
@@ -158,7 +158,6 @@ function GlobalStoreContextProvider(props) {
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
                     allPlaylists: store.allPlaylists,
-                    filter: "",
                 }));
             }
             // UPDATE A LIST
@@ -184,7 +183,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: true,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             // 
@@ -197,7 +195,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -209,7 +206,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -221,7 +217,6 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    filter: "",
                 }));
             }
             case GlobalStoreActionType.SET_PAGE_VIEW: {
@@ -229,6 +224,7 @@ function GlobalStoreContextProvider(props) {
                     ...prevState,
                     pageView: payload,
                     currentList: null,
+                    filter: "",
                 }));
             }
             case GlobalStoreActionType.GET_ALL_PLAYLISTS: {
@@ -251,7 +247,6 @@ function GlobalStoreContextProvider(props) {
                     allPlaylists: payload.allPlaylists,
                     idNamePairs: payload.pairsArray,
                     pageView: payload.pageView,
-                    filter: "",
                 }));
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM

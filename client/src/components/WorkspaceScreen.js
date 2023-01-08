@@ -8,6 +8,7 @@ import { Accordion } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
@@ -61,16 +62,22 @@ const WorkspaceScreen = () => {
                         isExpanded={(expand === pair._id)}
                         isHome={(store.pageView === "HOME")}
                         />
-                        <Button 
-                        onClick={handleChange(pair._id, (expand === pair._id))} 
-                        sx={{ '&:hover':{ backgroundColor:'#ffffff'} , 
-                            "& .MuiTouchRipple-child": { backgroundColor: `#d3d3d3 !important` }
-                        }}
-                        >
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>
                             {(expand === pair._id) ? 
-                            <ExpandLessIcon sx={{ color:'black' }} /> : 
-                            <ExpandMoreIcon sx={{ color:'black' }} />}
-                        </Button>
+                                "CLOSE PLAYLIST" : 
+                                "OPEN PLAYLIST"}
+                            </span>} placement="bottom">
+                            <Button 
+                            onClick={handleChange(pair._id, (expand === pair._id))} 
+                            sx={{ '&:hover':{ backgroundColor:'#ffffff'} , 
+                                "& .MuiTouchRipple-child": { backgroundColor: `#d3d3d3 !important` }
+                            }}
+                            >
+                                {(expand === pair._id) ? 
+                                <ExpandLessIcon sx={{ color:'black' }} /> : 
+                                <ExpandMoreIcon sx={{ color:'black' }} />}
+                            </Button>
+                        </Tooltip>
                     </AccordionSummary>
                     <AccordionDetails>
                         { modalJSX }

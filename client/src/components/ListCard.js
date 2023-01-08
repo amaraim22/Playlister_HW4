@@ -12,6 +12,7 @@ import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import EditOutlined from '@mui/icons-material/EditOutlined';
+import Tooltip from '@mui/material/Tooltip';
 
 import SongCard from './SongCard.js'
 import EditToolbar from './EditToolbar';
@@ -76,7 +77,8 @@ function ListCard(props) {
         }else{
             playlist.likers.push(auth.user.username);
         }
-        store.updateCurrentList(playlist)
+        store.updateCurrentList(playlist);
+        store.closeCurrentList();
     }
 
     function addDislike(){
@@ -89,7 +91,8 @@ function ListCard(props) {
         }else{
             playlist.dislikers.push(auth.user.username);
         }
-        store.updateCurrentList(playlist)
+        store.updateCurrentList(playlist);
+        store.closeCurrentList();
     }
 
     let buttonStyle = { color:"white", fontWeight:'bold', fontFamily:'Raleway', backgroundColor:'#cb997e', 
@@ -162,14 +165,14 @@ function ListCard(props) {
         subheader={"By: " + playlist.ownerUsername}
         action={
             <div id="buttonbox"> 
-                <Stack direction="row" justifyContent="space-between" spacing={2} >
+                <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>EDIT NAME</span>} placement="bottom">
                     <IconButton onClick={handleToggleEdit}>
-                    <EditOutlined 
-                id={"edit-list-" + playlist._id}
-                className="list-card-button"
-                sx={{ color:'#463f3a', fontSize: 30 }}  /> 
+                        <EditOutlined 
+                        id={"edit-list-" + playlist._id}
+                        className="list-card-button"
+                        sx={{ color:'#463f3a', fontSize: 30 }}  /> 
                     </IconButton>
-                </Stack>
+                </Tooltip>
             </div>
         }
         titleTypographyProps={{variant:'h5', fontFamily:'Raleway', fontWeight:'bold'}}
@@ -202,7 +205,7 @@ function ListCard(props) {
                 <Box sx={{ flexGrow: 1 }}>
                     <List 
                         id="playlist-cards" 
-                        sx={{ width: '96%', backgroundColor:'#6b705c', borderRadius:'5px' }}
+                        sx={{ width: '99%', backgroundColor:'#6b705c', borderRadius:'5px' }}
                     >
                         {
                             playlist.songs.map((song, index) => (
@@ -244,17 +247,21 @@ function ListCard(props) {
             action={
                 <div id="buttonbox"> 
                     <Stack direction="row" justifyContent="space-between" spacing={2} >
-                        <IconButton onClick={addLike} disabled={auth.isGuest}>
-                            <ThumbUpOutlined sx={{ fontSize:35, 
-                            color: (auth.isGuest) ? "gray" : ((playlist.likers.includes(auth.user.username))?'#f1dca7':'#463f3a') }}
-                            ></ThumbUpOutlined>
-                        </IconButton>
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>LIKE</span>} placement="bottom">
+                            <IconButton onClick={addLike} disabled={auth.isGuest}>
+                                <ThumbUpOutlined sx={{ fontSize:35, 
+                                color: (auth.isGuest) ? "gray" : ((playlist.likers.includes(auth.user.username))?'#f1dca7':'#463f3a') }}
+                                ></ThumbUpOutlined>
+                            </IconButton>
+                        </Tooltip>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.likers.length}</Typography>
-                        <IconButton onClick={addDislike} disabled={auth.isGuest}>
-                            <ThumbDownOutlined sx={{fontSize:35,
-                            color: (auth.isGuest) ? "gray" : ((playlist.dislikers.includes(auth.user.username))?'#f1dca7':'#463f3a')}}
-                            ></ThumbDownOutlined>
-                        </IconButton>
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>DISLIKE</span>} placement="bottom">
+                            <IconButton onClick={addDislike} disabled={auth.isGuest}>
+                                <ThumbDownOutlined sx={{fontSize:35,
+                                color: (auth.isGuest) ? "gray" : ((playlist.dislikers.includes(auth.user.username))?'#f1dca7':'#463f3a')}}
+                                ></ThumbDownOutlined>
+                            </IconButton>
+                        </Tooltip>
                         <Typography sx={{paddingTop:1, fontSize:25}}>{playlist.dislikers.length}</Typography>
                     </Stack>
                 </div>
@@ -293,6 +300,7 @@ function ListCard(props) {
                 defaultValue={playlist.name}
                 inputProps={{style: {fontSize: '25px', fontFamily:'Raleway'}}}
                 InputLabelProps={{style: {fontSize: '25px', fontFamily:'Raleway'}}}
+                sx={{background:"white"}} 
                 autoFocus
             />
     }

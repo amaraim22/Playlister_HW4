@@ -3,6 +3,7 @@ import GlobalStoreContext from '../store';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
 
 const style = {
     position: 'absolute',
@@ -30,6 +31,9 @@ export default function MUIDeleteModal() {
         store.unmarkListForDeletion();
     }
 
+    let buttonStyle = { color:"white", fontWeight:'bold', fontFamily:'Raleway', backgroundColor:'#cb997e', 
+        '&:hover':{ backgroundColor:'gray' }, margin:1 }
+
     return (
         <Modal
             open={store.listMarkedForDeletion !== null}
@@ -40,21 +44,23 @@ export default function MUIDeleteModal() {
                     Delete Playlist?
                 </header>
                 <div className="modal-center">
-                    <div className="modal-center-content modal-textfield">
+                    <div className="modal-center-content modal-text">
                         Are you sure you want to delete the "{name}" playlist?
                     </div>
                 </div>
                 <div id="confirm-cancel-container">
-                    <button
+                    <Button
                         id="dialog-yes-button"
                         className="modal-button"
                         onClick={handleDeleteList}
-                    >Confirm</button>
-                    <button
+                        sx={buttonStyle}
+                    >Confirm</Button>
+                    <Button
                         id="dialog-no-button"
                         className="modal-button"
                         onClick={handleCloseModal}
-                    >Cancel</button>
+                        sx={buttonStyle}
+                    >Cancel</Button>
                 </div>
             </div>
             </Box>

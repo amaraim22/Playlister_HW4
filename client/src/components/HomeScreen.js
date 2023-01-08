@@ -14,6 +14,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -45,6 +49,8 @@ const HomeScreen = () => {
         }
     }
 
+    let inputPropsStyle = {style: {fontSize: 15, fontFamily:'Raleway'}}
+
     let listCard = "";
     let youtubePlayer = "";
     let playerCommentBox = "";
@@ -69,7 +75,9 @@ const HomeScreen = () => {
                         onKeyUp={(event)=> handleKeyPress(event)}  
                         sx={{background:"white", width:"95%"}} 
                         label="Add Comment"
-                        value={commentValue}>
+                        value={commentValue}
+                        inputProps={inputPropsStyle}
+                        InputLabelProps={inputPropsStyle}>
                         </TextField>
                     </Box>
                 </div>
@@ -113,8 +121,23 @@ const HomeScreen = () => {
             <div id="list-selector-list"><AllScreen /></div>;
         }
         else if(store.pageView === "USER") {
-            listCard = 
-            <div id="list-selector-list"><UserScreen /></div>;
+            if(store.filter !== "") {
+                listCard = 
+                <div id="list-selector-list"><UserScreen /></div>;
+            }
+            else {
+                listCard = 
+                    <React.Fragment>
+                    <ListItem sx={{mt:'10px', width:'99%'}}>
+                        <ListItemText 
+                        primary={
+                        <Stack justifyContent="center">
+                            <Typography type="body2" sx={{ fontFamily:'Raleway', fontWeight:'bold', color:'#463f3a', textAlign:'center' }}>
+                                Search for Users . . . </Typography>
+                        </Stack>}/>
+                    </ListItem>
+                    </React.Fragment>
+            }
         }
     }
 

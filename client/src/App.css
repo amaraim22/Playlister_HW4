@@ -255,6 +255,32 @@ input {
   color: var(--swatch-neutral);
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 /* THIS STYLE SHEET MANAGES STYLE FOR OUR MODAL, i.e. DIALOG BOX */
 
 .modal {
@@ -285,7 +311,7 @@ input {
   position: relative;
   max-width: 800px;
   max-height: 80vh;
-  background: #D4D5F5;
+  background: #ffe8d6;
   overflow: auto;
   cursor: default;
   border-width: 5px;
@@ -325,26 +351,43 @@ input {
 
 .dialog-header {
   font-size: 24pt;
-  background-color: #2C2F70;
+  background-color: #cb997e;
   color: white;
+  font-weight:  bold;
+  font-family: 'Raleway';
 }
 
 .modal-textfield {
-  font-size: 25px;
+  font-size: 23px;
   margin-bottom: 5px;
+  width: 250px;
+  color:'#463f3a';
+  font-family: 'Raleway';
+}
+
+.modal-center {
+  margin-top: 8px;
+}
+
+.modal-text {
+  font-size: 23px;
+  margin-right: 5px;
+  margin-top: 3px;
+  color:'#463f3a';
+  font-family: 'Raleway';
+  text-align: center;
 }
 
 .modal-prompt {
   font-size: 20px;
   margin-right: 5px;
-  margin-bottom: 25px;
+  margin-top: 3px;
+  color:'#463f3a';
+  font-family: 'Raleway';
 }
 
-.modal-button {
-  margin: 10px;
-  height: 35px;
-  width: 100px;
-  font-size: 20px;
+.modal-button:hover {
+  background-color:'gray';
 }
 
 #close-modal-button {

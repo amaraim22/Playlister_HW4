@@ -11,6 +11,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 /*
     This React component lets us edit a loaded list, which only
@@ -57,16 +58,22 @@ function UserScreen() {
                         isExpanded={(expand === pair._id)}
                         isHome={(store.pageView === "HOME")}
                         />
-                        <Button 
-                        onClick={handleChange(pair._id, (expand === pair._id))} 
-                        sx={{ '&:hover':{ backgroundColor:'#ffffff'} , 
-                            "& .MuiTouchRipple-child": { backgroundColor: `#d3d3d3 !important` }
-                        }}
-                        >
+                        <Tooltip title={<span style={{ fontFamily:'Raleway', fontSize:'15px' }}>
                             {(expand === pair._id) ? 
-                            <ExpandLessIcon sx={{ color:'black' }} /> : 
-                            <ExpandMoreIcon sx={{ color:'black' }} />}
-                        </Button>
+                                "CLOSE PLAYLIST" : 
+                                "OPEN PLAYLIST"}
+                            </span>} placement="bottom">
+                            <Button 
+                            onClick={handleChange(pair._id, (expand === pair._id))} 
+                            sx={{ '&:hover':{ backgroundColor:'#ffffff'} , 
+                                "& .MuiTouchRipple-child": { backgroundColor: `#d3d3d3 !important` }
+                            }}
+                            >
+                                {(expand === pair._id) ? 
+                                <ExpandLessIcon sx={{ color:'black' }} /> : 
+                                <ExpandMoreIcon sx={{ color:'black' }} />}
+                            </Button>
+                        </Tooltip>
                     </AccordionSummary>
                     <AccordionDetails>
                         { }
