@@ -7,6 +7,7 @@ function authManager() {
         console.log("Who called verify?");
         try {
             const token = req.cookies.token;
+            console.log(token);
             if (!token) {
                 return res.status(401).json({
                     loggedIn: false,
