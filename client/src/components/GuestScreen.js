@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
-import AuthContext from '../auth'
 
 import AllScreen from './AllScreen'
 import NavBar from './NavBar.js';
@@ -12,6 +11,9 @@ import CommentsBox from './CommentsBox';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -20,7 +22,6 @@ import Stack from '@mui/material/Stack';
 */
 const GuestScreen = () => {
     const { store } = useContext(GlobalStoreContext);
-    const { auth } = useContext(AuthContext);
     const [playerComment, setPlayerComment] = useState("PLAYER");
 
     useEffect(() => {
@@ -84,8 +85,23 @@ const GuestScreen = () => {
             listCard = <div id="list-selector-list"><AllScreen /></div>;
         }
         else if(store.pageView === "USER") {
-            listCard = 
-            <div id="list-selector-list"><UserScreen /></div>;
+            if(store.filter !== "") {
+                listCard = 
+                <div id="list-selector-list"><UserScreen /></div>;
+            }
+            else {
+                listCard = 
+                    <React.Fragment>
+                    <ListItem sx={{mt:'10px', width:'99%'}}>
+                        <ListItemText 
+                        primary={
+                        <Stack justifyContent="center">
+                            <Typography type="body2" sx={{ fontFamily:'Raleway', fontWeight:'bold', color:'#463f3a', textAlign:'center' }}>
+                                Search for Users . . . </Typography>
+                        </Stack>}/>
+                    </ListItem>
+                    </React.Fragment>
+            }
         }
     }
     return (

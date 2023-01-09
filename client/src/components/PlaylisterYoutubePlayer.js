@@ -151,7 +151,7 @@ function PlaylisterYoutubePlayer(props) {
     
     let youtube = 
         <div id='empty-playlist-text'>ADD A SONG TO LOAD YOUTUBE PLAYER</div>
-    if (playlist.length != 0) {
+    if (playlist.length !== 0) {
         youtube = 
         <YouTube
         videoId={playlist[currentSongIndex]}

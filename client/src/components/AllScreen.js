@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
-import AuthContext from '../auth'
 
 import ListCard from './ListCard.js'
 

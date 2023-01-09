@@ -32,12 +32,10 @@ export default function CommentsBox() {
       </React.Fragment>
   </List>
   
-  if(comments.length != 0) {
+  if(comments.length !== 0) {
     commentItems = 
     <List sx={{ height: 435, mb: 2, backgroundColor:'#ffe8d6'}}>
       {comments.map(({ body, owner, postedDate }) => (
-        postedDate = new Date(postedDate),
-        postedDate = postedDate.toLocaleString(),
         <React.Fragment>
           <ListItem sx={{backgroundColor:'white', borderRadius:'10px', mb:'5px', width:'99%'}}>
             <ListItemAvatar>
@@ -47,7 +45,7 @@ export default function CommentsBox() {
               primary={
               <Stack direction="row" justifyContent="space-between">
                 <Typography type="body2" sx={{ fontFamily:'Raleway', fontWeight:'bold', color:'#463f3a' }}>{owner}</Typography>
-                <Typography type="body2" sx={{ fontFamily:'Raleway', fontStyle:'italic', color:'#463f3a', fontSize:'15px' }}>{postedDate}</Typography>
+                <Typography type="body2" sx={{ fontFamily:'Raleway', fontStyle:'italic', color:'#463f3a', fontSize:'15px' }}>{new Date(postedDate).toLocaleString()}</Typography>
               </Stack>} 
               secondary={<Typography type="body2" sx={{ fontFamily:'Raleway', color:'#463f3a' }}>{body}</Typography>}/>
           </ListItem>
