@@ -76,8 +76,7 @@ const HomeScreen = () => {
                         label="Add Comment"
                         value={commentValue}
                         inputProps={inputPropsStyle}
-                        InputLabelProps={inputPropsStyle}>
-                        </TextField>
+                        InputLabelProps={inputPropsStyle}/>
                     </Box>
                 </div>
             }

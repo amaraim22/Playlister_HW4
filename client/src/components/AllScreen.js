@@ -35,7 +35,6 @@ function AllScreen() {
     };
 
     let allLists = [];
-    console.log(store.allPlaylists);
     if(store.allPlaylists != null) {
         allLists = store.allPlaylists.filter(pair => pair.playlist.publishedDate != null);
     }

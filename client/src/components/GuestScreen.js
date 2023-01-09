@@ -14,6 +14,7 @@ import Stack from '@mui/material/Stack';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -36,11 +37,14 @@ const GuestScreen = () => {
         setPlayerComment("COMMENT");
     }
 
+    let inputPropsStyle = {style: {fontSize: 15, fontFamily:'Raleway'}}
+
     let listCard = "";
     let youtubePlayer = "";
     let playerCommentBox = "";
 
-    if(store) {
+    if (store) {
+        console.log(store.currentList);
         if (store.currentList != null) {
             if (playerComment === "PLAYER") {
                 playerCommentBox = <PlaylisterYoutubePlayer currentList={store.currentList} />
@@ -51,6 +55,13 @@ const GuestScreen = () => {
                     <div id="comments-box">
                         <CommentsBox />
                     </div>
+                    <Box sx={{flexGrow:1, mt:'2%', mb:'2%'}}>
+                        <TextField
+                        disabled={true}
+                        sx={{background:"white", width:"95%"}} 
+                        label="Login or Register to Add Comments"
+                        InputLabelProps={inputPropsStyle}/>
+                    </Box>
                 </div>
             }
 
@@ -61,8 +72,9 @@ const GuestScreen = () => {
                         id='get-player-button'
                         variant="contained"
                         onClick={togglePlayer}
-                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#be3d3d' : '#d4d4f5', 
-                        color:'white', 
+                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#cb997e' : '#ffe8d6', 
+                        color: (playerComment === "PLAYER") ? '#white' : '#cb997e',
+                        fontWeight:'bold', fontFamily:'Raleway',
                         '&:hover':{ backgroundColor:'gray', color:'white' } }}>
                             Player
                     </Button>
@@ -71,15 +83,16 @@ const GuestScreen = () => {
                         variant="contained"
                         onClick={toggleComment}
                         disabled={(store.currentList.publishedDate === null)}
-                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#d4d4f5' : '#be3d3d', 
-                        color:'white', 
+                        sx={{ backgroundColor: (playerComment === "PLAYER") ? '#ffe8d6' : '#cb997e', 
+                        color: (playerComment === "PLAYER") ? '#cb997e' : '#white', 
+                        fontWeight:'bold', fontFamily:'Raleway',
                         '&:hover':{ backgroundColor:'gray', color:'white' } }}>
                             Comments
                     </Button>
                     { playerCommentBox }
                 </Box>
             </div>
-        }  
+        }    
 
         if(store.pageView === "ALL") {
             listCard = <div id="list-selector-list"><AllScreen /></div>;

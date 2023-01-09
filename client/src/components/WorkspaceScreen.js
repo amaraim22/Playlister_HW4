@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -21,6 +22,7 @@ import ListCard from './ListCard.js'
 */
 const WorkspaceScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [expand, setExpanded] = useState(false);
 
     const handleChange = (panel, isExpanded) => (event) => {
@@ -45,7 +47,9 @@ const WorkspaceScreen = () => {
         }  
     }
 
-    console.log(store.currentList);
+    console.log(auth.loggedIn);
+    console.log(auth.user);
+    console.log(store.idNamePairs);
 
     return (
         <List sx={{ width: '98%', left: '2%', bgcolor: '#ddbea9', overflowY:"scroll", borderRadius:'5px', marginTop:'-0.5%' }}>
