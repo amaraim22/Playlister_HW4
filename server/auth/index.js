@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+// const AuthController = require('../controllers/auth-controller')
 
 function authManager() {
     verify = (req, res, next) => {

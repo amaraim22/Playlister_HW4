@@ -165,8 +165,6 @@ function GlobalStoreContextProvider(props) {
                 return setStore((prevState) => ({
                     ...prevState,
                     currentList: payload,
-                    currentSongIndex: -1,
-                    currentSong: null,
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,

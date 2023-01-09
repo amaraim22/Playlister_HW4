@@ -159,7 +159,6 @@ body {
 #comments-box {
   height: 435px;
   width: 94%;
-  overflow-y: scroll;
 }
 
 .list-card,
